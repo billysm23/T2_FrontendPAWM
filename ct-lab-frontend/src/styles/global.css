@@ -22,6 +22,7 @@
     --text-secondary: #666666;
     --text-light: #ffffff;
     --text-line: #EAD8B1;
+    --text-link: rgb(74, 132, 223);
     
     /* Element UI */
     --navbar-bg: #001F3F;
@@ -99,6 +100,7 @@
     --text-secondary: #cccccc;
     --text-light: #ffffff;
     --text-line: #c6eaff;
+    --text-link: rgb(104, 186, 222);
     
     /* Element UI */
     --navbar-bg: #000000;

@@ -21,7 +21,7 @@ const Footer = () => {
                         <h3>Quick Links</h3>
                         <div className={styles.footer_links}>
                         <Link to="/About">About Us</Link>
-                        <Link to="/https://wa.me/6287766900543">Contact Us</Link>
+                        <Link to="https://wa.me/6287766900543">Contact Us</Link>
                         <Link to="/terms">Terms of Service</Link>
                         <Link to="/privacy">Privacy Policy</Link>
                         </div>
@@ -41,8 +41,8 @@ const Footer = () => {
                     <h3>Resources</h3>
                     <div className={styles.footer_links}>
                         <Link to="/guides">Guides</Link>
-                        <Link to="/blog">Blog</Link>
-                        <Link to="/features">New Features</Link>
+                        <Link to="https://www.blogger.com/about/">Blog</Link>
+                        <Link to="/#Features">New Features</Link>
                         <Link to="/faq">FAQ</Link>
                     </div>
                 </div>
