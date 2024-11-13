@@ -1,0 +1,50 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    }
+    
+    .primary {
+        background: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
+        color: white;
+    }
+    
+    .primary:hover {
+        background: linear-gradient(to top, rgb(0, 28, 171) 0%, rgb(103, 184, 255) 100%);
+    }
+    
+    .secondary {
+        background: #EAD8B1;
+        color: #001F3F;
+    }
+    
+    .secondary:hover {
+        background: #6A9AB0;
+        color: white;
+    }
+    
+    .large {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .medium {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .small {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }

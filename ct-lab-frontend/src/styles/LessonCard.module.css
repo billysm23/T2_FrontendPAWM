@@ -1,0 +1,57 @@
+.lessonCard {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.lessonCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lessonCard h3 {
+    margin: 0 0 1rem;
+    color: #001F3F;
+}
+
+.lessonCard p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.startButton {
+    background: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.startButton:hover {
+    background: linear-gradient(to top, rgb(0, 28, 171) 0%, rgb(103, 184, 255) 100%);
+}
+
+.locked {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.lockedMessage {
+    color: #999;
+    font-style: italic;
+}
+
+.lessonList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
