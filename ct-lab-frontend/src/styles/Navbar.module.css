@@ -1,5 +1,5 @@
 .navbar {
-    background: #001F3F;
+    background: var(--navbar-bg);
     height: 80px;
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@
 }
 
 .navbar_logo {
-    background-image: linear-gradient(to top, rgb(0, 62, 205) 0%, rgb(5, 147, 255) 45%, #fff 100%);
+    background: var(--logo-gradient);
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
@@ -32,7 +32,6 @@
     display: flex;
     font-weight: bold;
     align-items: center;
-    text-decoration: none;
     font-size: 2rem;
     gap: 8px;
 }
@@ -60,7 +59,7 @@
 }
 
 .navbar_links {
-    color: white;
+    color: var(--navbar-text);
     text-decoration: none;
     font-weight: bold;
     display: flex;
@@ -68,6 +67,7 @@
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     position: relative;
+    transition: color 0.3s ease;
 }
 
 /* garis link melebar */
@@ -78,7 +78,7 @@
     left: 50%;
     width: 0;
     height: 2px;
-    background-color: #EAD8B1;
+    background-color: var(--text-line);
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -92,8 +92,8 @@
 }
 
 .button {
-    background: var(--secondary-color);
-    color: var(--primary-color);
+    background: var(--login-color);
+    color: var(--text-primary);
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -101,8 +101,8 @@
 }
 
 .button:hover {
-    background: #0063c1;
-    color: white;
+    background: var(--accent-color);
+    color: var(--text-light);
 }
     
 /* Mobile Menu */

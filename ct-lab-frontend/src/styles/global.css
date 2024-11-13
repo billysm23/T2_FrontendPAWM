@@ -1,24 +1,176 @@
-:root {
+:root[data-theme="light"] {
+    /* Warna biasa */
     --primary-color: #001F3F;
-    --secondary-color: #EAD8B1;
-    --accent-color: #6A9AB0;
-    --text-color: #333;
+    --secondary-color: #87efff;
+    --accent-color: #3dbeff;
+    --login-color: #EAD8B1;
+    
+    /* Background */
+    --bg-features: #f1f5f9;
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;
+    --icon-bg: #0f172a;
+    --icon-color: #60a5fa;
+    --star-color: #ffffff;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-accent: #a6c4e0;
+    --bg-hero: linear-gradient(to bottom, #1e293b, #0f172a);
+    
+    /* Text */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-light: #ffffff;
+    --text-line: #EAD8B1;
+    
+    /* Element UI */
+    --navbar-bg: #001F3F;
+    --navbar-text: #ffffff;
+    --footer-bg: #001F3F;
+    --footer-text: #ffffff;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    
+    /* Gradien */
+    --button-gradient: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
+    --button-hover-gradient: linear-gradient(to top, rgb(0, 28, 171) 0%, rgb(103, 184, 255) 100%);
+    --logo-gradient: linear-gradient(to top, rgb(2, 46, 157) 0%, rgb(5, 147, 255) 45%, #fff 100%);
+    
+    /* Bayangan */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    
+    /* Status */
     --error-color: #dc3545;
     --success-color: #28a745;
+    --warning-color: #ffc107;
+    
+    /* Auth specific variables */
+    --auth-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+    --auth-box-shadow-hover: 0 6px 12px -1px rgba(0, 0, 0, 0.1),
+        0 4px 6px -1px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    --input-focus-ring: rgba(0, 31, 63, 0.15);
+    --text-placeholder: #9ca3af;
+    --error-bg: #fef2f2;
+    --error-text: #dc2626;
+    --error-border: #fecaca;
+    --auth-bg-pattern:  linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
+                        linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+    
+    /* Footer */
+    --footer-bg: #001F3F;
+    --footer-text: #ffffff;
+    --footer-text-secondary: #cccccc;
+    --footer-border: rgba(255, 255, 255, 0.1);
+    --footer-input-bg: rgba(255, 255, 255, 0.1);
+    --footer-input-border: rgba(255, 255, 255, 0.2);
+    --footer-input-text: #ffffff;
+    --footer-icon-bg: rgba(255, 255, 255, 0.1);
+    --footer-icon-hover-bg: rgba(234, 216, 177, 0.2);
 }
 
+:root[data-theme="dark"] {
+    /* Warna biasa */
+    --primary-color: #60a5fa;
+    --secondary-color: #93c5fd;
+    --accent-color: #3b82f6;
+    --login-color: #0044a9;
+    
+    /* Background */
+    --bg-features: #1a1a1a;
+    --card-bg: #2d2d2d;
+    --card-border: #404040;
+    --icon-bg: #374151;
+    --icon-color: #60a5fa;
+    --star-color: #ffffff;
+    --wave-color: #1a1a1a;
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-accent: #374151;
+    --bg-hero: linear-gradient(to bottom, #0f172a, #020617);
+    
+    /* Text */
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-light: #ffffff;
+    --text-line: #c6eaff;
+    
+    /* Element UI */
+    --navbar-bg: #000000;
+    --navbar-text: #ffffff;
+    --footer-bg: #000000;
+    --footer-text: #ffffff;
+    --card-bg: #2d2d2d;
+    --input-bg: #333333;
+    --input-border: #404040;
+    
+    /* Gradien */
+    --button-gradient: linear-gradient(to top, #2563eb 0%, #60a5fa 100%);
+    --button-hover-gradient: linear-gradient(to top, #1d4ed8 0%, #3b82f6 100%);
+    --logo-gradient: linear-gradient(to top, #60a5fa 0%, #93c5fd 45%, #fff 100%);
+    
+    /* Bayangan */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+
+    /* Status */
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+
+    /* Auth specific variables */
+    --auth-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -1px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+    --auth-box-shadow-hover: 0 6px 12px -1px rgba(0, 0, 0, 0.2),
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    --input-focus-ring: rgba(96, 165, 250, 0.15);
+    --text-placeholder: #6b7280;
+    --error-bg: rgba(220, 38, 38, 0.1);
+    --error-text: #ef4444;
+    --error-border: rgba(220, 38, 38, 0.2);
+    --auth-bg-pattern:  linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff),
+                        linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+
+    /* Footer */
+    --footer-bg: #000000;
+    --footer-text: #ffffff;
+    --footer-text-secondary: #a0aec0;
+    --footer-border: rgba(255, 255, 255, 0.05);
+    --footer-input-bg: rgba(255, 255, 255, 0.05);
+    --footer-input-border: rgba(255, 255, 255, 0.1);
+    --footer-input-text: #ffffff;
+    --footer-icon-bg: rgba(255, 255, 255, 0.05);
+    --footer-icon-hover-bg: rgba(96, 165, 250, 0.2);
+}
+
+* {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Base styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -32,8 +184,7 @@ button {
     outline: none;
 }
 
-input, 
-button {
+input, button {
     font-size: 16px;
 }
 
@@ -43,18 +194,24 @@ button {
     padding: 0 1rem;
 }
 
+/* Status styles */
 .error {
     color: var(--error-color);
+    background-color: rgba(220, 53, 69, 0.1);
     padding: 0.5rem;
     margin: 0.5rem 0;
     border-radius: 4px;
-    background-color: rgba(220, 53, 69, 0.1);
 }
 
 .success {
     color: var(--success-color);
+    background-color: rgba(40, 167, 69, 0.1);
     padding: 0.5rem;
     margin: 0.5rem 0;
     border-radius: 4px;
-    background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* Transitions */
+.theme-transition {
+    transition: all 0.3s ease;
 }
