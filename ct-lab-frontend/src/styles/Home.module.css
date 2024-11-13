@@ -1,126 +1,131 @@
-.main {
-    min-height: calc(100vh - 80px);
-    width: 100%;
-    background-color: #a6c4e0;
-    margin: 0;
-    padding: 60px;
+/* Hero section */
+.hero_section {
+    position: relative;
+    min-height: 90vh;
+    background: linear-gradient(to bottom, #1e293b, #0f172a);
+    overflow: hidden;
 }
 
-.main_container {
+/* background bergelombang */
+.wave_container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.wave_container svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+}
+
+.wave_container .shape_fill {
+    fill: #f1f5f9;
+}
+
+/* Hero content */
+.hero_content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-
-.main_content {
-    max-width: 600px;
-}
-
-.main_content h1 {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-}
-
-.main_content p {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 2rem;
-}
-
-.main_btn {
-    display: inline-block;
-    padding: 1rem 2rem;
-    background: var(--primary-color);
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 1;
     color: white;
+}
+
+.title {
+    font-size: 3.5rem;
     font-weight: bold;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #60a5fa, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.main_btn:hover {
-    background: #0063c1;
-    transform: translateY(-2px);
+/* Bintang */
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 1.5s infinite alternate;
 }
 
-.main_img_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.star1 { top: 15%; right: 10%; width: 4px; height: 4px; }
+.star2 { top: 25%; left: 15%; width: 3px; height: 3px; animation-delay: 0.3s; }
+.star3 { top: 35%; right: 25%; width: 5px; height: 5px; animation-delay: 0.7s; }
+
+@keyframes twinkle {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
 }
 
-.main_img {
-    max-width: 100%;
-    height: auto;
-}
-
+/* Features section */
 .features {
-    padding: 4rem 0;
-    background: #f8f9fa;
-}
-
-.features h1 {
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: 3rem;
+    background: #f1f5f9;
+    padding: 6rem 0;
 }
 
 .features_container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+.features_grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 3rem;
 }
 
-.features_card {
+.feature_card {
     background: white;
+    border-radius: 1rem;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     transition: all 0.3s ease;
 }
 
-.features_card:hover {
+.feature_card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
-@media screen and (min-width: 1260px) {
-    .main {
-        min-height: calc(50vh - 80px);
-    }
+.feature_icon {
+    width: 48px;
+    height: 48px;
+    background: #0f172a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: #60a5fa;
 }
 
-@media screen and (max-width: 1260px) {
-    .main {
-        min-height: calc(80vh - 80px);
-    }
+.feature_title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #0f172a;
 }
 
-@media screen and (max-width: 768px) {
-    .main_container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
-    }
+.feature_description {
+    color: #64748b;
+    line-height: 1.6;
+}
 
-    .main_content h1 {
-        font-size: 2.5rem;
+@media (max-width: 768px) {
+    .title {
+    font-size: 2.5rem;
     }
-
-    .main_img_container {
-        order: -1;
-    }
-
-    .features_container {
-        grid-template-columns: 1fr;
+    
+    .wave_container svg {
+    height: 100px;
     }
 }
