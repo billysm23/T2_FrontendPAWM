@@ -11,6 +11,10 @@ const Home = () => {
             <div className={`${styles.star} ${styles.star1}`}></div>
             <div className={`${styles.star} ${styles.star2}`}></div>
             <div className={`${styles.star} ${styles.star3}`}></div>
+            <div className={`${styles.star} ${styles.star4}`}></div>
+            <div className={`${styles.star} ${styles.star5}`}></div>
+            <div className={`${styles.star} ${styles.star6}`}></div>
+            <div className={`${styles.star} ${styles.star7}`}></div>
 
             <div className={styles.hero_container}>
                 <div className={styles.hero_content}>
@@ -28,22 +32,31 @@ const Home = () => {
                     </Link>
                 </div>
 
-                {/* <div className={styles.hero_image}>
+                <div className={styles.hero_image}>
                     <img 
                         src="/../../../images/computer.png" 
                         alt="Computational Thinking Illustration" 
                     />
-                </div> */}
+                </div>
             </div>
 
-        {/* Wave SVG */}
+            {/* Wave SVG */}
             <div className={styles.wave_container}>
-                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className={styles.shape_fill}></path>
+                <svg 
+                    viewBox="0 0 1440 320" 
+                    className={styles.wave}
+                    preserveAspectRatio="none"
+                >
+                    <path 
+                        fill="#f1f5f9" 
+                        fillOpacity="1" 
+                        d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,128C672,107,768,85,864,90.7C960,96,1056,128,1152,133.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+                    ></path>
                 </svg>
             </div>
         </section>
 
+        {/* Features Section */}
         <section className={styles.features}>
             <div className={styles.features_container}>
                 <h2 className={styles.section_title}>Why Choose CT Lab?</h2>
