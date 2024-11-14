@@ -1,15 +1,8 @@
 {
-    "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "package.json",
-            "use": "@vercel/node",
-            "config": {
-            "nodeVersion": "16.x"
-            }
+            "source": "/(.*)",
+            "destination": "src/app.js"
         }
-    ],
-    "env": {
-        "NODE_OPTIONS": "--openssl-legacy-provider"
-    }
+    ]
 }
