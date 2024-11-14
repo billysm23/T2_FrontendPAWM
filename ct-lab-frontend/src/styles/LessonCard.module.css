@@ -1,57 +1,146 @@
-.lessonCard {
-    background: white;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
     transition: all 0.3s ease;
-}
-
-.lessonCard:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.lessonCard h3 {
-    margin: 0 0 1rem;
-    color: #001F3F;
-}
-
-.lessonCard p {
-    color: #666;
-    margin-bottom: 1.5rem;
-}
-
-.cardFooter {
+    height: 100%;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    position: relative;
 }
 
-.startButton {
-    background: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card_header {
+    padding: 2rem;
+    background: var(--accent-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.icon_container {
+    background: var(--icon-bg);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-color);
+}
+
+.title {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.card_content {
+    padding: 1.5rem 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+}
+
+.description {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.start_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: var(--button-gradient);
+    color: var(--text-light);
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
-.startButton:hover {
-    background: linear-gradient(to top, rgb(0, 28, 171) 0%, rgb(103, 184, 255) 100%);
+.start_button:hover {
+    background: var(--button-hover-gradient);
 }
 
-.locked {
-    opacity: 0.7;
-    pointer-events: none;
+.arrow_icon {
+    transition: transform 0.3s ease;
 }
 
-.lockedMessage {
-    color: #999;
-    font-style: italic;
+.start_button:hover .arrow_icon {
+    transform: translateX(4px);
 }
 
-.lessonList {
+/* Grid Layout */
+.lesson_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
     padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Loading State */
+.loading {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Error State */
+.error {
+    padding: 2rem;
+    text-align: center;
+    color: var(--error-color);
+    background: var(--error-bg);
+    border-radius: 12px;
+    margin: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card_header,
+    .card_content {
+        padding: 1.5rem;
+    }
+
+    .lesson_grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
+
+/* Hover Effects */
+.card:hover .icon_container {
+    transform: scale(1.05);
+}
+
+.card:hover .title {
+    transform: translateY(-2px);
+}
+
+/* Transitions */
+.card *,
+.icon_container,
+.title,
+.start_button,
+.arrow_icon {
+    transition: all 0.3s ease;
 }

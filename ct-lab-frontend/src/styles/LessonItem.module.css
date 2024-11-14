@@ -1,0 +1,54 @@
+.lessonItem {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.header h3 {
+    margin: 0;
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon {
+    color: #6b7280;
+}
+
+.startButton {
+    display: block;
+    background-image: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.startButton:hover {
+    transform: translateY(-2px);
+}
+
+.locked {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.lockedMessage {
+    color: #6b7280;
+    font-style: italic;
+}

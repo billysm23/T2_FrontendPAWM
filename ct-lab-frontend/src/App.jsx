@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
+import LessonDetail from './components/lesson/LessonDetail';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import About from './pages/About';
@@ -26,6 +27,7 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/lesson" element={<Lesson />} />
+                            <Route path="/lesson/:id" element={<LessonDetail />} />
                             {/* Quiz requires authentication */}
                             <Route
                                 path="/quiz/:lessonId"

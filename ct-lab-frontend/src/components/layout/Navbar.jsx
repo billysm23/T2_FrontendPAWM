@@ -40,7 +40,7 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className={styles.navbar_item}>
-                        <Link to="/lessons" className={styles.navbar_links} onClick={() => setIsOpen(false)}>
+                        <Link to="/lesson" className={styles.navbar_links} onClick={() => setIsOpen(false)}>
                             <BookOpen size={20} className={styles.icon} />
                             <span> Lessons</span>
                         </Link>

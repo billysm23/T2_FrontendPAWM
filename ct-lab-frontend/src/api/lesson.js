@@ -23,3 +23,12 @@ export const getLessonPrerequisites = async (id) => {
         throw error;
     }
 };
+
+export const getUserProgress = async () => {
+    try {
+        const response = await api.get('/progress/lessons');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

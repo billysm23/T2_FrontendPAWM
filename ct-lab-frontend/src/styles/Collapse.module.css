@@ -1,0 +1,55 @@
+.collapse {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.header.active {
+    background-color: #e2e8f0;
+}
+
+.toggle {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.toggle .bar {
+    background-color: #6b7280;
+    height: 2px;
+    width: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: transform 0.3s ease;
+}
+
+.toggle .bar:first-child {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.toggle .bar:last-child {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.active .toggle .bar:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.active .toggle .bar:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.content {
+    padding: 1.5rem;
+}

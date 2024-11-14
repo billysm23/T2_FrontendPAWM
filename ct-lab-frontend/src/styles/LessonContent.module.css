@@ -1,0 +1,50 @@
+.content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.content_section {
+    /* Tambahkan aturan CSS untuk konten pelajaran */
+}
+
+.concept_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.concept_item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.example_steps {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.lesson_btn {
+    background-image: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
+    border: none;
+    border-radius: 4px;
+    padding: 0.875rem 2rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.lesson_btn:hover {
+    transform: translateY(-2px);
+}

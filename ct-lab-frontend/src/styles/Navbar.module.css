@@ -138,7 +138,7 @@
         left: -100%;
         top: 80px;
         flex-direction: column;
-        background: var(--primary-color);
+        background: var(--navbar-bg);
         width: 100%;
         text-align: center;
         transition: 0.3s;
