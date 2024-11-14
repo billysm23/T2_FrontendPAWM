@@ -5,6 +5,9 @@ import ScrollToTop from './components/common/ScrollToTop';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
 import LessonDetail from './components/lesson/LessonDetail';
+import ContentSection from './components/lesson/section/ContentSection';
+import OverviewSection from './components/lesson/section/OverviewSection';
+import ResourcesSection from './components/lesson/section/ResourcesSection';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import About from './pages/About';
@@ -30,7 +33,10 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/lesson" element={<Lesson />} />
-                            <Route path="/lesson/:id" element={<LessonDetail />} />
+                            <Route path="/lesson/:id/*" element={<LessonDetail />} />
+                                <Route path="overview" element={<OverviewSection />} />
+                                <Route path="content" element={<ContentSection />} />
+                                <Route path="resources" element={<ResourcesSection />} />
                             <Route path="/coming-soon" element={<ComingSoon />} />
                             {/* Quiz requires authentication */}
                             <Route

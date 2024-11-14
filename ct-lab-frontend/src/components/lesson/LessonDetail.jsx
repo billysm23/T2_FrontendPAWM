@@ -1,14 +1,17 @@
-import { BookOpen, Clock, Target } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import { lessons } from '../../data/lessonData';
 import styles from '../../styles/LessonDetail.module.css';
+import ContentSection from './section/ContentSection';
+import OverviewSection from './section/OverviewSection';
+import ResourcesSection from './section/ResourcesSection';
 
 const LessonDetail = () => {
     const { id } = useParams();
+    const location = useLocation();
     const [lesson, setLesson] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState('overview');
 
     useEffect(() => {
         const fetchLesson = () => {
@@ -17,87 +20,95 @@ const LessonDetail = () => {
                 const foundLesson = lessons.find(l => l._id === id);
                 if (foundLesson) {
                     setLesson(foundLesson);
-                } else {
-                    setError('Lesson not found');
+                    // Set active tab based on current path
+                    const path = location.pathname.split('/').pop();
+                    setActiveTab(path === id ? 'overview' : path);
                 }
             } catch (err) {
-                setError(err.message);
+                console.error('Error fetching lesson:', err);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchLesson();
-    }, [id]);
+    }, [id, location]);
 
-    if (loading) return <div className={styles.loading}>Loading...</div>;
-    if (error) return <div className={styles.error}>{error}</div>;
-    if (!lesson) return <div className={styles.error}>Lesson not found</div>;
+    if (loading) {
+        return <div className={styles.loading}>Loading...</div>;
+    }
+
+    if (!lesson) {
+        return <div className={styles.error}>Lesson not found</div>;
+    }
+
+    // If no section is selected, redirect to overview
+    if (location.pathname === `/lesson/${id}`) {
+        return <Navigate to={`/lesson/${id}/overview`} replace />;
+    }
+
+    const isActive = (tab) => activeTab === tab ? styles.active : '';
+
+    const renderSection = () => {
+        switch (activeTab) {
+            case 'overview':
+                return <OverviewSection lesson={lesson} />;
+            case 'content':
+                return <ContentSection lesson={lesson} />;
+            case 'resources':
+                return <ResourcesSection lesson={lesson} />;
+            default:
+                return <OverviewSection lesson={lesson} />;
+        }
+    };
 
     return (
         <div className={styles.container}>
-            {/* Hero Section */}
             <div className={styles.hero}>
                 <div className={styles.hero_content}>
                     <h1>{lesson.title}</h1>
                     <p className={styles.description}>{lesson.description}</p>
                     <div className={styles.meta_info}>
-                        <div className={styles.meta_item}>
-                            <Clock size={20} />
-                            <span>30 mins</span>
-                        </div>
-                        <div className={styles.meta_item}>
-                            <Target size={20} />
-                            <span>Beginner</span>
-                        </div>
-                        <div className={styles.meta_item}>
-                            <BookOpen size={20} />
-                            <span>4 Sections</span>
-                        </div>
+                        <span>Duration: {lesson.duration}</span>
+                        <span>Level: {lesson.level}</span>
                     </div>
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className={styles.content_wrapper}>
                 <div className={styles.lesson_nav}>
-                    <div className={styles.nav_item}>Overview</div>
-                    <div className={styles.nav_item}>Content</div>
-                    <div className={styles.nav_item}>Resources</div>
-                    <div className={styles.nav_item}>Quiz</div>
+                    <Link 
+                        to={`/lesson/${id}/overview`} 
+                        className={`${styles.nav_item} ${isActive('overview')}`}
+                        onClick={() => setActiveTab('overview')}
+                    >
+                        Overview
+                    </Link>
+                    <Link 
+                        to={`/lesson/${id}/content`} 
+                        className={`${styles.nav_item} ${isActive('content')}`}
+                        onClick={() => setActiveTab('content')}
+                    >
+                        Content
+                    </Link>
+                    <Link 
+                        to={`/lesson/${id}/resources`} 
+                        className={`${styles.nav_item} ${isActive('resources')}`}
+                        onClick={() => setActiveTab('resources')}
+                    >
+                        Resources
+                    </Link>
+                    <Link 
+                        to={`/quiz/${id}`} 
+                        className={`${styles.nav_item} ${isActive('quiz')}`}
+                        onClick={() => setActiveTab('quiz')}
+                    >
+                        Quiz
+                    </Link>
                 </div>
 
-                <div className={styles.lesson_content}>
-                    <div 
-                        className={styles.content} 
-                        dangerouslySetInnerHTML={{ __html: lesson.content }} 
-                    />
-                        
-                    {lesson.quiz && (
-                        <div className={styles.action_container}>
-                            <Link 
-                                to={`/quiz/${lesson._id}`}
-                                className={styles.quiz_button}
-                            >
-                                Take Quiz
-                                <svg 
-                                    className={styles.arrow_icon} 
-                                    viewBox="0 0 24 24" 
-                                    width="20" 
-                                    height="20"
-                                >
-                                    <path 
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M5 12h14m-6-6 6 6-6 6"
-                                    />
-                                </svg>
-                            </Link>
-                        </div>
-                    )}
+                <div className={styles.content_area}>
+                    {renderSection()}
                 </div>
             </div>
         </div>
