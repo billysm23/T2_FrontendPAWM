@@ -1,152 +1,9 @@
 .container {
-    min-height: calc(100vh - 80px);
-    background-color: var(--bg-primary);
-}
-
-/* Hero Section */
-.hero {
-    background: var(--bg-accent);
-    padding: 4rem 2rem;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::after {
-    content: '';
-    position: absolute;
-    bottom: -5rem;
-    left: 0;
-    right: 0;
-    height: 6rem;
-    background: var(--bg-primary);
-    transform: skewY(-3deg);
-}
-
-.hero_content {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-}
-
-.hero h1 {
-    color: var(--text-primary);
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.description {
-    color: var(--text-secondary);
-    font-size: 1.25rem;
-    max-width: 800px;
-    margin: 0 auto 2rem;
-    line-height: 1.6;
-}
-
-.meta_info {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    color: var(--text-primary);
-}
-
-/* Content Wrapper */
-.content_wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem 2rem;
-}
-
-/* Navigation */
-.lesson_nav {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    overflow-x: auto;
-}
-
-.nav_item {
-    padding: 1rem 2rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.nav_item:hover {
-    color: var(--text-primary);
-    background: var(--bg-hover);
-}
-
-.nav_item.active {
-    color: var(--text-primary);
-    background: var(--primary-color);
-}
-
-/* Content Area */
-.content_area {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 2rem;
-    min-height: 500px;
-}
-
-/* Loading & Error States */
-.loading, .error {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-secondary);
-}
-
-.error {
-    color: var(--error-color);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero {
-        padding: 3rem 1rem;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .description {
-        font-size: 1.1rem;
-    }
-
-    .content_wrapper {
-        padding: 0 1rem 1rem;
-    }
-
-    .lesson_nav {
-        padding: 0.5rem;
-    }
-
-    .nav_item {
-        padding: 0.75rem 1.5rem;
-    }
-
-    .content_area {
-        padding: 1rem;
-    }
-}
-
-/* Layout & Container Styles */
-.container {
     min-height: 100vh;
     background: var(--bg-gradient);
 }
 
-/* Enhanced Hero Section */
+/* Hero Section */
 .hero {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     padding: 5rem 2rem;
@@ -216,7 +73,6 @@
     gap: 0.5rem;
 }
 
-/* Enhanced Navigation */
 .content_wrapper {
     max-width: 1200px;
     margin: -3rem auto 0;
@@ -225,6 +81,7 @@
     z-index: 10;
 }
 
+/* LessonNav section */
 .lesson_nav {
     background: var(--card-bg);
     border-radius: 16px;
@@ -257,7 +114,6 @@
     box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
 }
 
-/* Content Area */
 .content_area {
     background: var(--card-bg);
     border-radius: 16px;
@@ -299,7 +155,6 @@
     gap: 1.5rem;
 }
 
-/* Dark Mode Enhancements */
 :root[data-theme="dark"] .hero {
     background: linear-gradient(135deg, #1a1f3c 0%, #2d3748 100%);
 }
@@ -309,7 +164,7 @@
     backdrop-filter: blur(10px);
 }
 
-/* Responsive Design */
+/* Responsive Styling */
 @media (max-width: 768px) {
     .hero {
         padding: 4rem 1rem;
@@ -329,5 +184,19 @@
 
     .content_area {
         padding: 1.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .hero h1 {
+        font-size: 2.1rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .meta_info span {
+        font-size: 1rem;
     }
 }

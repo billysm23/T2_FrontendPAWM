@@ -113,11 +113,11 @@
     text-align: center;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 520px) {
     /* Additional Reading */
     .resources_grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .resource_card {
@@ -146,7 +146,7 @@
     }
 
     .resources_section {
-        padding: 1rem;
+        padding: 0.1rem;
         gap: 1.5rem;
     }
 }

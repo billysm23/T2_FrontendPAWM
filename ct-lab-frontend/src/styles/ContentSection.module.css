@@ -126,7 +126,7 @@ content_section li {
     background: var(--primary-color);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 520px) {
     /* Key Concepts */
     .concepts_grid {
         grid-template-columns: 1fr;
