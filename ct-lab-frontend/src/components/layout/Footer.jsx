@@ -8,7 +8,7 @@ const Footer = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle newsletter subscription
+        // Newsletter subscription
         console.log('Subscribing email:', email);
         setEmail('');
     };
@@ -20,10 +20,10 @@ const Footer = () => {
                     <div className={styles.footer_section}>
                         <h3>Quick Links</h3>
                         <div className={styles.footer_links}>
-                        <Link to="/About">About Us</Link>
+                        <Link to="/about">About Us</Link>
                         <Link to="https://wa.me/6287766900543">Contact Us</Link>
-                        <Link to="/terms">Terms of Service</Link>
-                        <Link to="/privacy">Privacy Policy</Link>
+                        <Link to="/coming-soon">Terms of Service</Link>
+                        <Link to="/coming-soon">Privacy Policy</Link>
                         </div>
                     </div>
 
@@ -40,10 +40,10 @@ const Footer = () => {
                 <div className={styles.footer_section}>
                     <h3>Resources</h3>
                     <div className={styles.footer_links}>
-                        <Link to="/guides">Guides</Link>
+                        <Link to="/coming-soon">Guides</Link>
                         <Link to="https://www.blogger.com/about/">Blog</Link>
                         <Link to="/#Features">New Features</Link>
-                        <Link to="/faq">FAQ</Link>
+                        <Link to="/coming-soon">FAQ</Link>
                     </div>
                 </div>
 

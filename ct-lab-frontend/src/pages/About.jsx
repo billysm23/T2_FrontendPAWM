@@ -63,7 +63,7 @@ const About = () => {
 
                         <div className={styles.image_container}>
                             <img 
-                                src="/images/Billy.jpg" 
+                                src="/images/bayibulet.jpg" 
                                 alt="Developer Profile" 
                                 className={styles.profile_image}
                             />

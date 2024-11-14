@@ -1,31 +1,28 @@
 .card {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
-    position: relative;
+    border: 1px solid var(--card-border);
 }
 
 .card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-lg);
 }
 
 .card_header {
+    background: var(--secondary-color);
     padding: 2rem;
-    background: var(--accent-color);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    overflow: hidden;
 }
 
-.icon_container {
+.icon_wrapper {
     background: var(--icon-bg);
     width: 48px;
     height: 48px;
@@ -33,22 +30,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover .icon_wrapper {
+    transform: scale(1.1);
+}
+
+.icon {
     color: var(--icon-color);
 }
 
 .title {
-    color: var(--text-light);
+    color: var(--text-primary);
     font-size: 1.5rem;
     font-weight: 600;
     margin: 0;
-    line-height: 1.3;
+    line-height: 1.4;
+    transition: transform 0.3s ease;
 }
 
 .card_content {
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 2rem 2rem;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     background: var(--card-bg);
 }
 
@@ -57,25 +66,27 @@
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-    flex: 1;
 }
 
 .start_button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: var(--button-gradient);
+    background: var(--accent-color);
     color: var(--text-light);
-    padding: 0.875rem 1.5rem;
+    padding: 1rem 1.5rem;
     border-radius: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
 .start_button:hover {
-    background: var(--button-hover-gradient);
+    background: var(--primary-color);
+    transform: translateX(6px);
 }
 
 .arrow_icon {
@@ -86,61 +97,29 @@
     transform: translateX(4px);
 }
 
-/* Grid Layout */
-.lesson_grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* Loading State */
-.loading {
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-secondary);
-}
-
-/* Error State */
-.error {
-    padding: 2rem;
-    text-align: center;
-    color: var(--error-color);
-    background: var(--error-bg);
-    border-radius: 12px;
-    margin: 1rem;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .card_header,
-    .card_content {
-        padding: 1.5rem;
+@media (max-width: 908px) {
+    .card {
+        margin: 0 1rem 1rem;
+        width: calc(100% - 2rem);
     }
-
-    .lesson_grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-        gap: 1rem;
+    
+    .title {
+        font-size: 1.1rem;
+    }
+    
+    .description {
+        font-size: 0.875rem;
+    }
+    
+    .start_button {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
     }
 }
 
-/* Hover Effects */
-.card:hover .icon_container {
-    transform: scale(1.05);
-}
-
-.card:hover .title {
-    transform: translateY(-2px);
-}
-
-/* Transitions */
-.card *,
-.icon_container,
-.title,
-.start_button,
-.arrow_icon {
-    transition: all 0.3s ease;
+@media (max-width: 480px) {
+    .icon_wrapper {
+        width: 36px;
+        height: 36px;
+    }
 }

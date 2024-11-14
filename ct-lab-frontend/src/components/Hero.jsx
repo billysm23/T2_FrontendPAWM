@@ -28,7 +28,7 @@ const Hero = () => {
                         Computational Thinking skills. Experience hands-on learning that
                         prepares you for real-world challenges.
                     </p>
-                    <Link to="/lessons" className={styles.cta_button}>
+                    <Link to="/lesson" className={styles.cta_button}>
                         Get Started
                     </Link>
                 </div>

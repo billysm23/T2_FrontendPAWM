@@ -152,12 +152,12 @@ export const lessons = [
                     </code>
                 </pre>
                 <p>This program does the following:</p>
-                <ol>
+                <ul>
                     <li>Defines a function called <code>calculate_area</code> that takes the length and width of a rectangle and returns its area.</li>
                     <li>Prompts the user to enter the length and width of the rectangle.</li>
                     <li>Calls the <code>calculate_area</code> function with the provided length and width.</li>
                     <li>Prints the calculated area of the rectangle.</li>
-                </ol>
+                </ul>
             </section>
         `
     }

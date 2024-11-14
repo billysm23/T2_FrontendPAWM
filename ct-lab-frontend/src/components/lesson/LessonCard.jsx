@@ -7,8 +7,8 @@ const LessonCard = ({ lesson }) => {
     return (
         <div className={styles.card}>
             <div className={styles.card_header}>
-                <div className={styles.icon_container}>
-                    <BookOpen className={styles.icon} size={24} />
+                <div className={styles.icon_wrapper}>
+                    <BookOpen size={24} className={styles.icon} />
                 </div>
                 <h2 className={styles.title}>{lesson.title}</h2>
             </div>
@@ -20,7 +20,7 @@ const LessonCard = ({ lesson }) => {
                     to={`/lesson/${lesson._id}`}
                     className={styles.start_button}
                 >
-                    Start Lesson
+                    <span>Start Lesson</span>
                     <svg 
                         className={styles.arrow_icon} 
                         width="20" 
@@ -32,7 +32,7 @@ const LessonCard = ({ lesson }) => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
+                        <path d="M4 12h14m-6-6 6 6-6 6" />
                     </svg>
                 </Link>
             </div>

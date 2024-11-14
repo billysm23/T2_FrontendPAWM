@@ -1,6 +1,6 @@
 .lesson_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 2rem;
     padding: 2rem;
     max-width: 1200px;
@@ -15,6 +15,18 @@
 @media (max-width: 768px) {
     .lesson_grid {
         grid-template-columns: 1fr;
-        padding: 1rem;
+        gap: 1rem;
+        padding: 1rem 0; /* Remove horizontal padding */
+    }
+}
+
+.grid_item {
+    display: flex;
+    min-height: 100%;
+}
+
+@media (max-width: 480px) {
+    .grid_item {
+        margin: 0; /* Remove margin on mobile */
     }
 }

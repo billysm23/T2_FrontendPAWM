@@ -1,9 +1,11 @@
 :root[data-theme="light"] {
     /* Warna biasa */
     --primary-color: #001F3F;
-    --secondary-color: #87efff;
+    --secondary-color: #b6f1fc;
     --accent-color: #3dbeff;
-    --login-color: #EAD8B1;
+    --login-color: #2162c2;
+    --black-white: black;
+    --white-black: white;
     
     /* Background */
     --bg-features: #f1f5f9;
@@ -21,7 +23,7 @@
     --text-primary: #333333;
     --text-secondary: #666666;
     --text-light: #ffffff;
-    --text-line: #EAD8B1;
+    --text-line: #a8f8ff;
     --text-link: rgb(74, 132, 223);
     
     /* Element UI */
@@ -78,9 +80,11 @@
 :root[data-theme="dark"] {
     /* Warna biasa */
     --primary-color: #60a5fa;
-    --secondary-color: #93c5fd;
+    --secondary-color: #5ca4f7;
     --accent-color: #3b82f6;
-    --login-color: #0044a9;
+    --login-color: #4294ff;
+    --black-white: white;
+    --white-black: black;
     
     /* Background */
     --bg-features: #1a1a1a;
@@ -155,7 +159,7 @@
 
 * {
     transition: background-color 0.3s ease,
-                color 0.3s ease,
+                color 0.005s ease,
                 border-color 0.3s ease,
                 box-shadow 0.3s ease;
 }
