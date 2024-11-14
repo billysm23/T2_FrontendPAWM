@@ -90,11 +90,11 @@
     color: var(--text-blue);
 }
 
-p {
+content_section p {
     color: var(--black-white) !important;
 }
 
-li {
+content_section li {
     color: var(--black-white) !important;
 }
 

@@ -122,8 +122,25 @@
 }
 
 @media (max-width: 600px) {
+    .hero_container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
     .wave_container {
         bottom: -10px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .hero_image {
+        order: -1;
+    }
+
+    .hero_image img {
+        max-width: 200px;
     }
 }
 
