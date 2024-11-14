@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../../styles/ContentSection.module.css';
 
 const ContentSection = ({ lesson }) => {
+    const [activeHints, setActiveHints] = useState({});
+
+    const toggleHint = (problemIndex) => {
+        setActiveHints(prev => ({
+            ...prev,
+            [problemIndex]: !prev[problemIndex]
+        }));
+    };
+
     if (!lesson) {
         return <div className={styles.error}>Lesson data not available</div>;
     }
-    
+
     return (
         <div className={styles.content_section}>
             {/* Main Content */}
@@ -34,19 +43,19 @@ const ContentSection = ({ lesson }) => {
             </div>
 
             {/* Interactive Examples */}
-            {lesson.interactiveExamples && (
+            {/* {lesson.interactiveExamples && (
                 <div className={styles.interactive_examples}>
                     <h2>Interactive Examples</h2>
                     {lesson.interactiveExamples.map((example, index) => (
-                        <div key={index} className={styles.example_container}>
+                        <div key={index} className={styles.example_container}> */}
                             {/* Interactive component would go here */}
-                            <div className={styles.example_content}>
+                            {/* <div className={styles.example_content}>
                                 {example.content}
                             </div>
                         </div>
                     ))}
                 </div>
-            )}
+            )} */}
 
             {/* Practice Problems */}
             {lesson.practiceProblems && (
@@ -57,7 +66,15 @@ const ContentSection = ({ lesson }) => {
                             <h3>Problem {index + 1}</h3>
                             <p>{problem.description}</p>
                             <div className={styles.problem_hints}>
-                                <button className={styles.hint_button}>Show Hint</button>
+                                <button 
+                                    className={styles.hint_button}
+                                    onClick={() => toggleHint(index)}
+                                >
+                                    {activeHints[index] ? 'Hide Hint' : 'Show Hint'}
+                                </button>
+                                <div className={`${styles.hint} ${activeHints[index] ? styles.show : ''}`}>
+                                    <p>{problem.hint}</p>
+                                </div>
                             </div>
                         </div>
                     ))}

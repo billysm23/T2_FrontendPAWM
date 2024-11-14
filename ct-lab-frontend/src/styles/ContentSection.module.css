@@ -113,17 +113,47 @@ content_section li {
     border: 1px solid var(--card-border);
 }
 
+.problem_hints {
+    position: relative;
+    margin-top: 1rem;
+}
+
 .hint_button {
     background: var(--accent-color);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    margin-top: 1rem;
-    transition: background 0.3s ease;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .hint_button:hover {
     background: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.hint {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    background: var(--bg-secondary);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.hint p {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hint.show {
+    max-height: 200px;
+    padding: 1rem;
+}
+
+.hint.show p {
+    opacity: 1;
 }
 
 @media screen and (max-width: 520px) {
@@ -154,5 +184,14 @@ content_section li {
     .content_section {
         padding: 1rem;
         gap: 1.5rem;
+    }
+
+    .hint.show {
+        max-height: 300px;
+    }
+    
+    .hint_button {
+        width: 100%;
+        padding: 0.75rem;
     }
 }
