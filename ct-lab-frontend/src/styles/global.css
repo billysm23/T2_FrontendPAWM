@@ -15,7 +15,7 @@
     --icon-color: #60a5fa;
     --star-color: #ffffff;
     --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
+    --bg-secondary: #daedff5b;
     --bg-accent: #a6c4e0;
     --bg-hero: linear-gradient(to bottom, #1e293b, #0f172a);
     
@@ -25,6 +25,7 @@
     --text-light: #ffffff;
     --text-line: #a8f8ff;
     --text-link: rgb(74, 132, 223);
+    --text-blue: rgb(0, 49, 87);
     
     /* Element UI */
     --navbar-bg: #001F3F;
@@ -49,6 +50,11 @@
     --error-color: #dc3545;
     --success-color: #28a745;
     --warning-color: #ffc107;
+
+    /* Lesson */
+    --primary-rgb: 37, 99, 235;
+    --bg-gradient: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+    --bg-hover: rgba(0,0,0,0.03);
     
     /* Auth specific variables */
     --auth-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -81,7 +87,6 @@
     /* Warna biasa */
     --primary-color: #60a5fa;
     --secondary-color: #5ca4f7;
-    --accent-color: #3b82f6;
     --login-color: #4294ff;
     --black-white: white;
     --white-black: black;
@@ -94,17 +99,21 @@
     --icon-color: #60a5fa;
     --star-color: #ffffff;
     --wave-color: #1a1a1a;
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
     --bg-accent: #374151;
     --bg-hero: linear-gradient(to bottom, #0f172a, #020617);
+    --bg-primary: #1a1e1e;
+    --bg-secondary: #32353f;
+    --text-secondary: #a0aec0;
+    --accent-color: #60a5fa;
+    --border-accent: #4287f5;
+    --hover-bg: rgba(96, 165, 250, 0.1);
     
     /* Text */
     --text-primary: #ffffff;
-    --text-secondary: #cccccc;
     --text-light: #ffffff;
     --text-line: #c6eaff;
     --text-link: rgb(104, 186, 222);
+    --text-blue: rgb(150, 207, 250);
     
     /* Element UI */
     --navbar-bg: #000000;
@@ -129,6 +138,10 @@
     --error-color: #ef4444;
     --success-color: #22c55e;
     --warning-color: #f59e0b;
+
+    /* Lesson */
+    --bg-gradientk: linear-gradient(to bottom, #0f172a, #1e293b);
+    --bg-hoverk: rgba(255,255,255,0.05);
 
     /* Auth specific variables */
     --auth-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),

@@ -578,42 +578,42 @@ export const lessons = [
                 title: 'Variables and Data Types',
                 description: 'Understanding how to store and manipulate different types of data.',
                 example: `# Python examples
-                            age = 25           # Integer
-                            name = "John"      # String
-                            price = 19.99      # Float
-                            is_student = True  # Boolean`
+age = 25           # Integer
+name = "John"      # String
+price = 19.99      # Float
+is_student = True  # Boolean`
             },
             {
                 title: 'Control Structures',
                 description: 'Making decisions and repeating actions in programs.',
                 example: `# If statement
-                            if age >= 18:
-                                print("Adult")
-                            else:
-                                print("Minor")
-                            
-                            # For loop
-                            for i in range(5):
-                                print(i)`
+if age >= 18:
+    print("Adult")
+else:
+    print("Minor")
+
+# For loop
+for i in range(5):
+    print(i)`
             },
             {
                 title: 'Functions',
                 description: 'Creating reusable blocks of code to perform specific tasks.',
-                example:    `def calculate_area(length, width):
-                                return length * width
-                            
-                            # Using the function
-                            area = calculate_area(5, 3)
-                            print(f"Area: {area}")`
+                example: `def calculate_area(length, width):
+    return length * width
+
+# Using the function
+area = calculate_area(5, 3)
+print(f"Area: {area}")`
             },
             {
                 title: 'Input/Output',
                 description: 'Interacting with users and displaying results.',
                 example: `# Getting user input
-                            name = input("Enter your name: ")
-                            
-                            # Displaying output
-                            print(f"Hello, {name}!")`
+name = input("Enter your name: ")
+
+# Displaying output
+print(f"Hello, {name}!")`
             }
         ],
     

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../styles/LessonDetail.module.css';
+import styles from '../../../styles/OverviewSection.module.css';
 
 const OverviewSection = ({ lesson }) => {
     if (!lesson) {

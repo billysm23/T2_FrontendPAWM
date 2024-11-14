@@ -1,6 +1,6 @@
 import { BookOpen, Download, FileText, Link, Video } from 'lucide-react';
 import React from 'react';
-import styles from '../../../styles/LessonDetail.module.css';
+import styles from '../../../styles/ResourceSection.module.css';
 
 const ResourcesSection = ({ lesson }) => {
     if (!lesson) {

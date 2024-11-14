@@ -1,0 +1,127 @@
+.content_section {
+    /* Layout dasar */
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem;
+}
+
+.main_content {
+    /* Style untuk main content */
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+.main_content h2 {
+    font-size: 2rem;
+    color: var(--text-blue);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.main_content p {
+    margin-bottom: 1.5rem;
+}
+
+/* .key_concepts {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+} */
+
+.key_concepts h2 {
+    color: var(--text-blue);
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.concepts_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.concept_card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.concept_card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.concept_card h3 {
+    color: var(--text-blue);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.example {
+    margin-top: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--accent-color);
+}
+
+.example h4 {
+    color: var(--text-blue);
+    margin-bottom: 1rem;
+}
+
+.example code {
+    display: block;
+    font-family: 'Fira Code', monospace;
+    color: var(--black-white);
+    white-space: pre-wrap;
+    line-height: 1.5;
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.interactive_examples h2, .practice_section h2 {
+    color: var(--text-blue);
+}
+
+p {
+    color: var(--black-white) !important;
+}
+
+li {
+    color: var(--black-white) !important;
+}
+
+/* Practice Problems Section */
+.practice_section {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.problem_card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--card-border);
+}
+
+.hint_button {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    transition: background 0.3s ease;
+}
+
+.hint_button:hover {
+    background: var(--primary-color);
+}
