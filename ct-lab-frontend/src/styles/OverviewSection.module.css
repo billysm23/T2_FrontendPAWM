@@ -131,3 +131,31 @@
     border-radius: 0.5rem;
     text-align: center;
 }
+
+@media screen and (max-width: 500px) {
+    /* What You'll Learn */
+    .topics_grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .topic_card {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .topic_card h3 {
+        font-size: 1.1rem;
+    }
+
+    .time_info {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .overview_section {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+}

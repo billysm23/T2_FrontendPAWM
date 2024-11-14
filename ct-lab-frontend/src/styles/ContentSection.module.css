@@ -125,3 +125,34 @@ content_section li {
 .hint_button:hover {
     background: var(--primary-color);
 }
+
+@media screen and (max-width: 500px) {
+    /* Key Concepts */
+    .concepts_grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .concept_card {
+        padding: 1rem;
+    }
+
+    .concept_card h3 {
+        font-size: 1.1rem;
+    }
+
+    .example {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .example code {
+        font-size: 0.85rem;
+        padding: 0.75rem;
+    }
+    
+    .content_section {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+}
