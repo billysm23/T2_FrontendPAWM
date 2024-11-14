@@ -20,7 +20,6 @@ const LessonDetail = () => {
                 const foundLesson = lessons.find(l => l._id === id);
                 if (foundLesson) {
                     setLesson(foundLesson);
-                    // Set active tab based on current path
                     const path = location.pathname.split('/').pop();
                     setActiveTab(path === id ? 'overview' : path);
                 }
@@ -42,7 +41,6 @@ const LessonDetail = () => {
         return <div className={styles.error}>Lesson not found</div>;
     }
 
-    // If no section is selected, redirect to overview
     if (location.pathname === `/lesson/${id}`) {
         return <Navigate to={`/lesson/${id}/overview`} replace />;
     }

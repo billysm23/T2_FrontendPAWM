@@ -37,7 +37,7 @@
 }
 
 .navbar_logo:hover {
-    background-image: linear-gradient(to bottom, rgb(2, 46, 157) 0%, rgb(5, 147, 255) 45%, #fff 100%);
+    background-image: linear-gradient(to bottom, rgb(6, 81, 180) 0%, rgb(55, 168, 255) 45%, #fff 100%);
     font-size: 2rem;
     gap: 8px;
 }

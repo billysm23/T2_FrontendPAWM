@@ -1,8 +1,8 @@
 :root[data-theme="light"] {
     /* Warna biasa */
     --primary-color: #001F3F;
-    --secondary-color: #b6f1fc;
-    --accent-color: #3dbeff;
+    --secondary-color: #d5f6ff;
+    --accent-color: #56c5fd;
     --login-color: #2162c2;
     --black-white: black;
     --white-black: white;
@@ -39,7 +39,7 @@
     /* Gradien */
     --button-gradient: linear-gradient(to top, #122159 0%, #5cc3f0 100%);
     --button-hover-gradient: linear-gradient(to top, rgb(0, 63, 157) 0%, rgb(103, 184, 255) 100%);
-    --logo-gradient: linear-gradient(to top, rgb(2, 69, 157) 0%, rgb(5, 147, 255) 45%, #fff 100%);
+    --logo-gradient: linear-gradient(to top, rgb(6, 81, 180) 0%, rgb(55, 168, 255) 45%, #fff 100%);
     
     /* Bayangan */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -86,7 +86,7 @@
 :root[data-theme="dark"] {
     /* Warna biasa */
     --primary-color: #60a5fa;
-    --secondary-color: #5ca4f7;
+    --secondary-color: #84bcfc;
     --login-color: #4294ff;
     --black-white: white;
     --white-black: black;
