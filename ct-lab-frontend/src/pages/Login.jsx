@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Auth.module.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { login } = useAuth();
+    // const location = useLocation();
+    // const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -55,7 +54,7 @@ const Login = () => {
                         </div>
                 )}
 
-<form onSubmit={handleSubmit} className={styles.auth_form}>
+                <form onSubmit={handleSubmit} className={styles.auth_form}>
                     <div className={styles.form_group}>
                         <label htmlFor="email">Email</label>
                         <input
