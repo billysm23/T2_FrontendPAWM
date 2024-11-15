@@ -142,6 +142,20 @@
     pointer-events: none;
 }
 
+.error_container {
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.error_message {
+    color: var(--error-text);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
 @media (max-width: 480px) {
     .auth_box {
     padding: 2rem;

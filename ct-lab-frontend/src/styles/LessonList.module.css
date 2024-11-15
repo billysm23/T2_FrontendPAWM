@@ -16,7 +16,7 @@
     .lesson_grid {
         grid-template-columns: 1fr;
         gap: 1rem;
-        padding: 1rem 0; /* Remove horizontal padding */
+        padding: 1rem 0;
     }
 }
 
@@ -27,6 +27,6 @@
 
 @media (max-width: 480px) {
     .grid_item {
-        margin: 0; /* Remove margin on mobile */
+        margin: 0;
     }
 }

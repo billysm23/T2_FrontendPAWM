@@ -164,7 +164,6 @@
     backdrop-filter: blur(10px);
 }
 
-/* Responsive Styling */
 @media (max-width: 768px) {
     .hero {
         padding: 4rem 1rem;

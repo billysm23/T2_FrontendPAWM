@@ -27,13 +27,42 @@ const Login = () => {
         setLoading(true);
 
         try {
-        await login(formData);
-        const from = location.state?.from?.pathname || "/lessons";
-        navigate(from, { replace: true });
+            await login(formData);
+            navigate('/lesson');
         } catch (err) {
-        setError(err.response?.data?.message || 'Failed to login');
+            if (err.response) {
+                // Error dari response API
+                const errorData = err.response.data;
+                
+                if (errorData.error) {
+                    switch (errorData.error.code) {
+                        case 'MISSING_FIELD':
+                            setError(errorData.error.message);
+                            break;
+                        case 'USER_NOT_FOUND':
+                            setError('Email is not registered. Please create an account first.');
+                            break;
+                        case 'INVALID_CREDENTIALS':
+                            setError('Invalid email or password combination.');
+                            break;
+                        case 'SESSION_EXISTS':
+                            setError('You are already logged in from another device. Please logout first.');
+                            break;
+                        default:
+                            setError(errorData.error.message || 'An error occurred during login');
+                    }
+                } else {
+                    setError('An unexpected error occurred. Please try again.');
+                }
+            } else if (err.request) {
+                // Error karena tidak ada response (network error)
+                setError('Unable to connect to server. Please check your internet connection.');
+            } else {
+                // Error lainnya
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
@@ -41,7 +70,15 @@ const Login = () => {
         <div className={styles.auth_container}>
         <div className={styles.auth_box}>
             <h1>Login to CT Lab</h1>
-            {error && <div className={styles.error}>{error}</div>}
+            {error && (
+                    <div className={styles.error_container}>
+                        <div className={styles.error_message}>
+                            {error}
+                        </div>
+                    </div>
+                )}
+
+                
             
             <form onSubmit={handleSubmit} className={styles.auth_form}>
             <div className={styles.form_group}>
