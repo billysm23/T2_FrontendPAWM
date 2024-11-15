@@ -2,41 +2,66 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Auth.module.css';
+import ApiError from '../utils/errorHandler';
 
 const Login = () => {
     const navigate = useNavigate();
-    // const location = useLocation();
-    const { login } = useAuth();
+    const { login, logout } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        // Reset error saat user mengetik
+        if (error?.field?.includes(name)) {
+            setError(null);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        setError(null);
         setLoading(true);
 
         try {
-            // const response = await api.post('/auth/login', formData);
             await login(formData);
             navigate('/');
         } catch (err) {
-            if (err.response) {
-                setError(err.response.data?.error?.message || 'Server error');
-            } else if (err.request) {
-                setError('Unable to connect to server. Please check your internet connection.');
-            } else {
-                setError('An unexpected error occurred');
+            const errorInfo = ApiError.handle(err);
+            setError(errorInfo);
+
+            // Handle specific actions
+            switch (errorInfo.action) {
+                case 'validate':
+                    // Biarkan user memperbaiki input
+                    break;
+                case 'login':
+                    // Redirect ke login jika token invalid
+                    navigate('/login');
+                    break;
+                case 'logout':
+                    // Handle session exists
+                    await logout();
+                    break;
+                case 'retry':
+                    // User bisa mencoba lagi
+                    break;
+                default:
+                    console.warn('Unknown error action:', errorInfo.action);
+                    break;
+            }
+
+            // Clear password jika error kredensial
+            if (errorInfo.field?.includes('password')) {
+                setFormData(prev => ({ ...prev, password: '' }));
             }
         } finally {
             setLoading(false);
@@ -47,12 +72,13 @@ const Login = () => {
         <div className={styles.auth_container}>
             <div className={styles.auth_box}>
                 <h1>Login to CT Lab</h1>
+                
                 {error && (
-                        <div className={styles.error_container}>
-                            <div className={styles.error_message}>
-                                {error}
-                            </div>
+                    <div className={styles.error_container}>
+                        <div className={styles.error_message}>
+                            {error.message}
                         </div>
+                    </div>
                 )}
 
                 <form onSubmit={handleSubmit} className={styles.auth_form}>
@@ -64,8 +90,9 @@ const Login = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('email') ? styles.input_error : ''
+                            }`}
                         />
                     </div>
 
@@ -77,8 +104,9 @@ const Login = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('password') ? styles.input_error : ''
+                            }`}
                         />
                     </div>
 

@@ -156,6 +156,11 @@
     line-height: 1.5;
 }
 
+.input_error {
+    border-color: var(--error-color);
+    background-color: var(--error-bg-color);
+}
+
 @media (max-width: 480px) {
     .auth_box {
     padding: 2rem;

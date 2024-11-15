@@ -1,32 +1,40 @@
-const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 jam
-const SESSION_KEY = 'user_session';
+const SESSION_CONFIG = {
+    SESSION_EXPIRY: 24 * 60 * 60 * 1000,
+    SESSION_KEY: 'user_session'
+};
 
 export const sessionManager = {
     setSession(token, user) {
         const session = {
             token,
             user,
-            expiry: new Date().getTime() + SESSION_DURATION,
-            createdAt: new Date().getTime()
+            isActive: true,
+            createdAt: new Date().getTime(),
+            expiresAt: new Date().getTime() + SESSION_CONFIG.SESSION_EXPIRY,
+            lastActivity: new Date().getTime()
         };
-        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        localStorage.setItem(SESSION_CONFIG.SESSION_KEY, JSON.stringify(session));
     },
 
     getSession() {
         try {
-            const sessionStr = localStorage.getItem(SESSION_KEY);
+            const sessionStr = localStorage.getItem(SESSION_CONFIG.SESSION_KEY);
             if (!sessionStr) return null;
 
             const session = JSON.parse(sessionStr);
             const now = new Date().getTime();
 
             // Cek expired
-            if (now > session.expiry) {
+            if (now > session.expiresAt || !session.isActive) {
                 this.clearSession();
                 return null;
             }
-            return session;
 
+            // Update lastActivity
+            session.lastActivity = now;
+            localStorage.setItem(SESSION_CONFIG.SESSION_KEY, JSON.stringify(session));
+
+            return session;
         } catch (error) {
             console.error('Session parse error:', error);
             this.clearSession();
@@ -35,19 +43,19 @@ export const sessionManager = {
     },
 
     clearSession() {
-        localStorage.removeItem(SESSION_KEY);
+        localStorage.removeItem(SESSION_CONFIG.SESSION_KEY);
     },
 
     isSessionValid() {
-        const session = this.getSession();
-        return !!session;
+        return !!this.getSession();
     },
 
     updateSessionExpiry() {
         const session = this.getSession();
         if (session) {
-            session.expiry = new Date().getTime() + SESSION_DURATION;
-            localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+            session.expiresAt = new Date().getTime() + SESSION_CONFIG.SESSION_EXPIRY;
+            session.lastActivity = new Date().getTime();
+            localStorage.setItem(SESSION_CONFIG.SESSION_KEY, JSON.stringify(session));
         }
     },
 

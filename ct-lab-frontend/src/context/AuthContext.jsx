@@ -19,17 +19,19 @@ export const AuthProvider = ({ children }) => {
             sessionManager.clearSession();
             setUser(null);
         }
-    }, [setUser]);
+    }, []);
     
     const setupSessionRefresh = useCallback(() => {
-        // Update session expiry setiap 5 menit
         const interval = setInterval(() => {
-            if (sessionManager.isSessionValid()) {
-                sessionManager.updateSessionExpiry();
-            } else {
+            const session = sessionManager.getSession();
+            if (!session) {
                 clearInterval(interval);
                 handleLogout();
+                return;
             }
+
+            // Update lastActivity
+            sessionManager.updateSessionExpiry();
         }, 5 * 60 * 1000);
 
         return () => clearInterval(interval);
@@ -41,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             if (session) {
                 setUser(session.user);
                 setupSessionRefresh();
-            } 
+            }
             setLoading(false);
         }
         initializeAuth();
@@ -49,28 +51,63 @@ export const AuthProvider = ({ children }) => {
 
     const handleLogin = useCallback(async (credentials) => {
         try {
+            // Cek session sudah ada
+            if (sessionManager.isSessionValid()) {
+                throw new Error('You have an active session. Please logout first.');
+            }
+
             const response = await api.post('/auth/login', credentials);
             const { success, data } = response.data;
 
             if (success) {
-                const { token, user } = data;
-                sessionManager.setSession(token, user);
-                setUser(user);
+                sessionManager.setSession(data.token, data.user);
+                setUser(data.user);
                 setupSessionRefresh();
                 return data;
             }
-            
+
             throw new Error('Login failed');
         } catch (error) {
+            if (error.response?.data?.error) {
+                throw new Error(error.response.data.error.message);
+            }
             throw error;
         }
-    }, [setUser, setupSessionRefresh]);
+    }, [setupSessionRefresh]);
+
+    const handleRegister = useCallback(async (userData) => {
+        try {
+            // Cek session yang sudah ada
+            if (sessionManager.isSessionValid()) {
+                throw new Error('You have an active session. Please logout first.');
+            }
+
+            const response = await api.post('/auth/register', userData);
+            const { success, data } = response.data;
+
+            if (success) {
+                // Opsional: langsung login setelah register
+                sessionManager.setSession(data.token, data.user);
+                setUser(data.user);
+                setupSessionRefresh();
+                return data;
+            }
+
+            throw new Error('Registration failed');
+        } catch (error) {
+            if (error.response?.data?.error) {
+                throw new Error(error.response.data.error.message);
+            }
+            throw error;
+        }
+    }, [setupSessionRefresh]);
 
     const value = {
         user,
         loading,
         login: handleLogin,
         logout: handleLogout,
+        register: handleRegister,
         isAuthenticated: sessionManager.isSessionValid()
     };
 

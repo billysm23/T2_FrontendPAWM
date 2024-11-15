@@ -1,74 +1,83 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Auth.module.css';
+import ApiError from '../utils/errorHandler';
 
 const Register = () => {
     const navigate = useNavigate();
-    // const { register: registerUser } = useAuth();
+    const { register } = useAuth();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        // Reset error saat user mengetik
+        if (error?.field?.includes(name)) {
+            setError(null);
+        }
+    };
+
+    const validatePasswords = () => {
+        if (formData.password !== formData.confirmPassword) {
+            setError({
+                message: 'Passwords do not match',
+                field: ['password', 'confirmPassword'],
+                action: 'validate'
+            });
+            return false;
+        }
+        return true;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        setError(null);
 
         // Validasi password match
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+        if (!validatePasswords()) {
             return;
         }
 
         setLoading(true);
         try {
-            // Hilangkan confirmPassword dari data yang dikirim
             const { confirmPassword, ...registerData } = formData;
-            
-            // Kirim request register ke backend
-            const response = await api.post('/auth/register', registerData);
+            await register(registerData);
 
-            if (response.data.success) {
-                navigate('/login');
-            }
+            navigate('/login');
         } catch (err) {
-            if (err.response) {
-                // Error dari server
-                const errorData = err.response.data;
-                
-                if (errorData.error) {
-                    switch (errorData.error.code) {
-                        case 'RESOURCE_EXISTS':
-                            setError('Username or email already exists');
-                            break;
-                        case 'VALIDATION_ERROR':
-                            setError(errorData.error.message);
-                            break;
-                        case 'INVALID_FORMAT':
-                            setError(errorData.error.message);
-                            break;
-                        default:
-                            setError(errorData.error.message || 'Registration failed');
+            const errorInfo = ApiError.handle(err);
+            setError(errorInfo);
+
+            // Handle specific actions
+            switch (errorInfo.action) {
+                case 'validate':
+                    // Clear password fields jika ada error validasi
+                    if (errorInfo.field?.includes('password')) {
+                        setFormData(prev => ({
+                            ...prev,
+                            password: '',
+                            confirmPassword: ''
+                        }));
                     }
-                } else {
-                    setError('Registration failed. Please try again.');
-                }
-            } else if (err.request) {
-                setError('Unable to connect to server. Please check your internet connection.');
-            } else {
-                setError('An unexpected error occurred');
+                    break;
+                case 'retry':
+                    // User bisa mencoba lagi
+                    break;
+                default:
+                    // Default handler untuk action yang tidak dikenal
+                    console.warn('Unknown error action:', errorInfo.action);
+                    break;
             }
         } finally {
             setLoading(false);
@@ -79,14 +88,15 @@ const Register = () => {
         <div className={styles.auth_container}>
             <div className={styles.auth_box}>
                 <h1>Create Account</h1>
+                
                 {error && (
                     <div className={styles.error_container}>
                         <div className={styles.error_message}>
-                            {error}
+                            {error.message}
                         </div>
                     </div>
                 )}
-                
+
                 <form onSubmit={handleSubmit} className={styles.auth_form}>
                     <div className={styles.form_group}>
                         <label htmlFor="username">Username</label>
@@ -97,7 +107,9 @@ const Register = () => {
                             value={formData.username}
                             onChange={handleChange}
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('username') ? styles.input_error : ''
+                            }`}
                             minLength={6}
                             maxLength={30}
                             pattern="^[a-zA-Z0-9_-]+$"
@@ -114,7 +126,9 @@ const Register = () => {
                             value={formData.email}
                             onChange={handleChange}
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('email') ? styles.input_error : ''
+                            }`}
                         />
                     </div>
 
@@ -127,7 +141,9 @@ const Register = () => {
                             value={formData.password}
                             onChange={handleChange}
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('password') ? styles.input_error : ''
+                            }`}
                             minLength={6}
                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$"
                             title="Password must contain at least 6 characters, including uppercase, lowercase, number and special character"
@@ -143,7 +159,9 @@ const Register = () => {
                             value={formData.confirmPassword}
                             onChange={handleChange}
                             required
-                            className={styles.input}
+                            className={`${styles.input} ${
+                                error?.field?.includes('confirmPassword') ? styles.input_error : ''
+                            }`}
                         />
                     </div>
 

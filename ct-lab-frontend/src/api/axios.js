@@ -28,10 +28,9 @@ api.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 401) {
+            // Handle session expired atau invalid
             sessionManager.clearSession();
-            // Jika belum di page login/register, mengarahkan ke login
-            if (!window.location.pathname.includes('login') && 
-                !window.location.pathname.includes('register')) {
+            if (!window.location.pathname.includes('/login')) {
                 window.location.href = '/login';
             }
         }
