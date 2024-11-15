@@ -1,14 +1,15 @@
 import { BookOpen, CheckCircle, ChevronRight, Lock } from 'lucide-react';
-import React from 'react';
-import { toast } from 'react-hot-toast';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useProgress } from '../../hooks/useProgress';
 import styles from '../../styles/LessonCard.module.css';
 
-const LessonCard = ({ lesson, isLocked }) => {
+const LessonCard = React.memo(({ lesson, isLocked }) => {
     const { progress } = useProgress();
-    const lessonProgress = progress?.lessons?.find(
-        l => l.lessonId === lesson._id
+    
+    const lessonProgress = useMemo(() => 
+        progress?.lessons?.find(l => l.lessonId === lesson._id),
+        [progress?.lessons, lesson._id]
     );
 
     const status = isLocked ? 'locked' : lessonProgress?.status || 'unlocked';
@@ -18,11 +19,6 @@ const LessonCard = ({ lesson, isLocked }) => {
     const handleLessonClick = (e) => {
         if (isLocked) {
             e.preventDefault();
-            toast.error('Complete the previous lesson to unlock this one!', {
-                duration: 3000,
-                position: 'top-center',
-            });
-            return false;
         }
     };
 
@@ -77,25 +73,11 @@ const LessonCard = ({ lesson, isLocked }) => {
                             isCompleted ? 'Review Lesson' :
                             isInProgress ? 'Continue' : 'Start Lesson'}
                     </span>
-                    {!isLocked && <ChevronRight className={styles.arrow_icon} />}
+                    {!isLocked && <ChevronRight className={styles.next_icon} />}
                 </Link>
             </div>
         </div>
     );
-};
+});
 
 export default LessonCard;
-
-{/* <svg
-    className={styles.arrow_icon} 
-    width="20" 
-    height="20" 
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
->
-    <path d="M4 12h14m-6-6 6 6-6 6" />
-</svg> */}
