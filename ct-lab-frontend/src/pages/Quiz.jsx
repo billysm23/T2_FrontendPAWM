@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getQuizByLesson, submitQuiz } from '../api/quiz';
 import MultipleChoice from '../components/quiz/MultipleChoice';
 import TrueFalse from '../components/quiz/TrueFalse';
-// import DragDrop from '../components/quiz/DragDrop';
 import styles from '../styles/Quiz.module.css';
 
 const Quiz = () => {
