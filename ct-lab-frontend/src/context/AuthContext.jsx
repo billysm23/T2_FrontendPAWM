@@ -7,6 +7,33 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await api.get('/auth/validate-token');
+                if (response.data.success) {
+                    setUser(response.data.user);
+                }
+            } catch (error) {
+                // Only clear token on auth error
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    setUser(null);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, []);
     
     const handleLogout = useCallback(async () => {
         try {

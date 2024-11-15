@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import ProgressContext from '../context/ProgressContext';
 import { progressService } from '../services/progressService';
 
 export const useProgress = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [progress, setProgress] = useState(null);
+    const context = useContext(ProgressContext);
+
+    if (context === undefined) {
+        throw new Error('useProgress must be used within a ProgressProvider');
+    }
 
     const getUserProgress = async () => {
         try {
@@ -46,6 +52,7 @@ export const useProgress = () => {
         loading,
         error,
         getUserProgress,
-        updateLessonProgress
+        updateLessonProgress,
+        context
     };
 };

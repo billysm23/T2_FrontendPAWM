@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
+import { useProgress } from '../../context/ProgressContext';
 import { lessons } from '../../data/lessonData';
 import styles from '../../styles/LessonDetail.module.css';
 import ContentSection from './section/ContentSection';
 import OverviewSection from './section/OverviewSection';
+import QuizSection from './section/QuizSection';
 import ResourcesSection from './section/ResourcesSection';
 
 const LessonDetail = () => {
@@ -12,26 +14,46 @@ const LessonDetail = () => {
     const [lesson, setLesson] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
+    const { updateLessonProgress } = useProgress();
+    
+    const initLesson = useCallback(async () => {
+        try {
+            await updateLessonProgress(id, { status: 'started' });
+        } catch (error) {
+            console.error('Error updating lesson progress:', error);
+        }
+    }, [id, updateLessonProgress]);
+
+    const fetchLesson = useCallback(() => {
+        try {
+            setLoading(true);
+            const foundLesson = lessons.find(l => l._id === id);
+            if (foundLesson) {
+                setLesson(foundLesson);
+                const path = location.pathname.split('/').pop();
+                setActiveTab(path === id ? 'overview' : path);
+            }
+        } catch (err) {
+            console.error('Error fetching lesson:', err);
+        } finally {
+            setLoading(false);
+        }
+    }, [id, location.pathname]);
 
     useEffect(() => {
-        const fetchLesson = () => {
-            try {
-                setLoading(true);
-                const foundLesson = lessons.find(l => l._id === id);
-                if (foundLesson) {
-                    setLesson(foundLesson);
-                    const path = location.pathname.split('/').pop();
-                    setActiveTab(path === id ? 'overview' : path);
-                }
-            } catch (err) {
-                console.error('Error fetching lesson:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchLesson();
-    }, [id, location]);
+        initLesson();
+    }, [fetchLesson, initLesson]);
+        
+    // const completeLesson = async () => {
+    //     if (activeTab === 'quiz') {
+    //         try {
+    //             await updateLessonProgress(id, 'completed');
+    //         } catch (error) {
+    //             console.error('Error completing lesson:', error);
+    //         }
+    //     }
+    // };
 
     if (loading) {
         return <div className={styles.loading}>Loading...</div>;
@@ -55,6 +77,8 @@ const LessonDetail = () => {
                 return <ContentSection lesson={lesson} />;
             case 'resources':
                 return <ResourcesSection lesson={lesson} />;
+            case 'quiz':
+                return <QuizSection lesson={lesson} />;
             default:
                 return <OverviewSection lesson={lesson} />;
         }
@@ -97,7 +121,7 @@ const LessonDetail = () => {
                         Resources
                     </Link>
                     <Link 
-                        to={`/quiz/${id}`} 
+                        to={`/lesson/${id}/quiz`} 
                         className={`${styles.nav_item} ${isActive('quiz')}`}
                         onClick={() => setActiveTab('quiz')}
                     >
@@ -106,7 +130,13 @@ const LessonDetail = () => {
                 </div>
 
                 <div className={styles.content_area}>
-                    {renderSection()}
+                    {loading ? (
+                        <div className={styles.loading}>Loading...</div>
+                    ) : !lesson ? (
+                        <div className={styles.error}>Lesson not found</div>
+                    ) : (
+                        renderSection()
+                    )}
                 </div>
             </div>
         </div>

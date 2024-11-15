@@ -5,9 +5,24 @@ const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json',
-    },
-    withCredentials: true
+    }
 });
+
+// Response interceptor
+api.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401 &&
+            (error.config.url.includes('/quiz') ||
+            error.config.url.includes('/auth/validate-token'))) {
+                sessionManager.clearSession();
+                if (!window.location.pathname.includes('/login')) {
+                    window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);
 
 // Request interceptor
 api.interceptors.request.use(
@@ -19,21 +34,6 @@ api.interceptors.request.use(
         return config;
     },
     error => {
-        return Promise.reject(error);
-    }
-);
-
-// Response interceptor
-api.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response?.status === 401) {
-            // Handle session expired atau invalid
-            sessionManager.clearSession();
-            if (!window.location.pathname.includes('/login')) {
-                window.location.href = '/login';
-            }
-        }
         return Promise.reject(error);
     }
 );

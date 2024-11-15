@@ -1,6 +1,7 @@
 export const lessons = [
     {
         _id: '1',
+        order: 1,
         title: 'Introduction to Computational Thinking',
         description: 'Learn the fundamentals of computational thinking and its key concepts.',
         duration: '30 minutes',
@@ -164,16 +165,56 @@ export const lessons = [
                 description: 'Visual programming environment to practice CT',
                 url: 'https://scratch.mit.edu'
             }
+        ],
+
+        quiz: [
+            {
+                _id: "q1_l1",
+                question_text: "Which of the following is NOT a core component of computational thinking?",
+                type: "multiple_choice",
+                options: [
+                    { _id: "1", text: "Decomposition" },
+                    { _id: "2", text: "Pattern Recognition" },
+                    { _id: "3", text: "Programming", isCorrect: true },
+                    { _id: "4", text: "Abstraction" }
+                ],
+                order: 1
+            },
+            {
+                _id: "q2_l1",
+                question_text: "Decomposition is the process of breaking down complex problems into smaller parts.",
+                type: "true_false",
+                options: [
+                    { _id: "1", text: "True", isCorrect: true },
+                    { _id: "2", text: "False" }
+                ],
+                order: 2
+            },
+            {
+                _id: "q3_l1",
+                question_text: "What is the main purpose of abstraction in computational thinking?",
+                type: "multiple_choice",
+                options: [
+                    { _id: "1", text: "To make problems more complex" },
+                    { _id: "2", text: "To focus on important details while ignoring irrelevant ones", isCorrect: true },
+                    { _id: "3", text: "To create more detailed solutions" },
+                    { _id: "4", text: "To slow down problem-solving" }
+                ],
+                order: 3
+            }
         ]
     },
+
     {
         _id: '2',
+        order: 2,
         title: 'Problem-Solving Strategies',
         description: 'Explore various problem-solving strategies and techniques used in computational thinking.',
         duration: '45 minutes',
         practiceTime: '2-3 hours',
         level: 'Intermediate',
         sections: 4,
+        prerequisite: ['1'],
 
         learningObjectives: [
             'Master different problem-solving approaches',
@@ -333,17 +374,44 @@ export const lessons = [
                 description: 'Online tools for practicing different strategies',
                 url: 'https://example.com/practice'
             }
+        ],
+
+        quiz: [
+            {
+                _id: "q1_l2",
+                question_text: "Which problem-solving strategy involves breaking a problem into smaller sub-problems?",
+                type: "multiple_choice",
+                options: [
+                    { _id: "1", text: "Divide and Conquer", isCorrect: true },
+                    { _id: "2", text: "Trial and Error" },
+                    { _id: "3", text: "Working Backwards" },
+                    { _id: "4", text: "Guess and Check" }
+                ],
+                order: 1
+            },
+            {
+                _id: "q2_l2",
+                question_text: "Pattern recognition is only useful in mathematical problems.",
+                type: "true_false",
+                options: [
+                    { _id: "1", text: "True" },
+                    { _id: "2", text: "False", isCorrect: true }
+                ],
+                order: 2
+            }
         ]
     },
 
     {
         _id: '3',
+        order: 3,
         title: 'Algorithms and Data Structures',
         description: 'Understand the importance of algorithms and data structures in computational thinking.',
         duration: '60 minutes',
         practiceTime: '3-4 hours',
         level: 'Advanced',
         sections: 5,
+        prerequisite: ['2'],
 
         learningObjectives: [
             'Understand fundamental algorithms and their applications',
@@ -503,17 +571,44 @@ export const lessons = [
                 description: 'Platform for practicing algorithm implementation',
                 url: 'https://leetcode.com'
             }
+        ],
+
+        quiz: [
+            {
+                _id: "q1_l3",
+                question_text: "Which of these is a characteristic of a good algorithm?",
+                type: "multiple_choice",
+                options: [
+                    { _id: "1", text: "It should be ambiguous" },
+                    { _id: "2", text: "It should have clear steps and produce definite output", isCorrect: true },
+                    { _id: "3", text: "It should be complex" },
+                    { _id: "4", text: "It should only work for specific cases" }
+                ],
+                order: 1
+            },
+            {
+                _id: "q2_l3",
+                question_text: "Arrays and linked lists are examples of data structures.",
+                type: "true_false",
+                options: [
+                    { _id: "1", text: "True", isCorrect: true },
+                    { _id: "2", text: "False" }
+                ],
+                order: 2
+            }
         ]
     },
 
     {
         _id: '4',
+        order: 4,
         title: 'Introduction to Programming',
         description: 'Get started with the basics of programming and learn how to write simple programs.',
         duration: '45 minutes',
         practiceTime: '2-3 hours',
         level: 'Beginner',
         sections: 5,
+        prerequisite: ['3'],
     
         // Overview Section
         learningObjectives: [
@@ -699,6 +794,31 @@ print(f"Hello, {name}!")`
                 title: 'Online Python Editor',
                 description: 'Web-based environment for writing and testing Python code',
                 url: 'https://replit.com'
+            }
+        ],
+
+        quiz: [
+            {
+                _id: "q1_l4",
+                question_text: "Which of the following is a correct variable name in Python?",
+                type: "multiple_choice",
+                options: [
+                    { _id: "1", text: "123variable" },
+                    { _id: "2", text: "my-variable" },
+                    { _id: "3", text: "my_variable", isCorrect: true },
+                    { _id: "4", text: "my variable" }
+                ],
+                order: 1
+            },
+            {
+                _id: "q2_l4",
+                question_text: "Python is a case-sensitive programming language.",
+                type: "true_false",
+                options: [
+                    { _id: "1", text: "True", isCorrect: true },
+                    { _id: "2", text: "False" }
+                ],
+                order: 2
             }
         ]
     }

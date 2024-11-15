@@ -4,8 +4,12 @@ export const lessonService = {
     async getLessons() {
         try {
             const response = await api.get('/lessons');
-            return response.data;
+            return response.data.map(lesson => ({
+                ...lesson,
+                order: parseInt(lesson._id)
+            }));
         } catch (error) {
+            console.error('Error fetching lessons:', error);
             throw error;
         }
     },
@@ -13,15 +17,6 @@ export const lessonService = {
     async getLessonById(id) {
         try {
             const response = await api.get(`/lessons/${id}`);
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
-    },
-
-    async getLessonPrerequisites(id) {
-        try {
-            const response = await api.get(`/lessons/${id}/prerequisites`);
             return response.data;
         } catch (error) {
             throw error;
