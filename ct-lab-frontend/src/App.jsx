@@ -1,5 +1,4 @@
 import React, { Suspense, lazy } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import SessionGuard from './components/SessionGuard';
@@ -28,7 +27,6 @@ function App() {
                 <ThemeProvider>
                     <Router>
                         <ScrollToTop/>
-                        <Toaster position="top-right" />
                         <div className="app">
                                 {/* <title>CT Lab</title> */}
                             <Navbar />
