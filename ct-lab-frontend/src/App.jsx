@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import SessionGuard from './components/SessionGuard';
 import ScrollToTop from './components/common/ScrollToTop';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
@@ -37,6 +38,11 @@ function App() {
                                 <Route path="overview" element={<OverviewSection />} />
                                 <Route path="content" element={<ContentSection />} />
                                 <Route path="resources" element={<ResourcesSection />} />
+                                <Route path="/quiz/:lessonId" element={
+                                    <SessionGuard>
+                                        <Quiz />
+                                    </SessionGuard>
+                                } />
                             <Route path="/coming-soon" element={<ComingSoon />} />
                             {/* Quiz requires authentication */}
                             <Route

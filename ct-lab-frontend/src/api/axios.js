@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sessionManager } from '../utils/session';
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -9,28 +10,30 @@ const api = axios.create({
 });
 
 // Request interceptor
-// api.interceptors.request.use(
-//     config => {
-//         console.log('Request Config:', {
-//             url: config.url,
-//             method: config.method,
-//             headers: config.headers,
-//             data: config.data
-//         });
-//         return config;
-//     },
-//     error => {
-//         return Promise.reject(error);
-//     }
-// );
+api.interceptors.request.use(
+    config => {
+        const session = sessionManager.getSession();
+        if (session?.token) {
+            config.headers.Authorization = `Bearer ${session.token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 
 // Response interceptor
 api.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            window.location.href = '/login';
+            sessionManager.clearSession();
+            // Jika belum di page login/register, mengarahkan ke login
+            if (!window.location.pathname.includes('login') && 
+                !window.location.pathname.includes('register')) {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }
