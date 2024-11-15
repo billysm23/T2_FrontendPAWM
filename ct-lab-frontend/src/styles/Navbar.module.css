@@ -50,7 +50,7 @@
 }
 
 .navbar_item {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     align-items: center;
 }
 
@@ -104,7 +104,32 @@
     background: var(--accent-color);
     color: var(--black-white);
 }
-    
+
+.username {
+    color: var(--navbar-text);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--login-color);
+    color: var(--white-black);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: var(--accent-color);
+    color: var(--black-white);
+}
+
 /* Mobile Menu */
 .navbar_toggle {
     display: none;
@@ -152,5 +177,11 @@
 
     .navbar_item {
         margin: 1.5rem 0;
+    }
+}
+
+@media screen and (max-width: 868px) {
+    .navbar_item {
+        padding: 0 0rem;
     }
 }

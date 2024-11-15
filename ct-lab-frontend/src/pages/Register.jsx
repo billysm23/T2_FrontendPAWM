@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Auth.module.css';
 
 const Register = () => {
     const navigate = useNavigate();
-    const { register: registerUser } = useAuth();
+    // const { register: registerUser } = useAuth();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -42,7 +41,6 @@ const Register = () => {
             const response = await api.post('/auth/register', registerData);
 
             if (response.data.success) {
-                // Jika berhasil, redirect ke login
                 navigate('/login');
             }
         } catch (err) {

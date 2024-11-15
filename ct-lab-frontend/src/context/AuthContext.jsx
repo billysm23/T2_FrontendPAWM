@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { login, logout } from '../api/auth';
 import api from '../api/axios';
 
 const validateUserToken = async (token) => {
@@ -8,11 +7,14 @@ const validateUserToken = async (token) => {
         const response = await api.get('/auth/validate-token', {
             headers: { Authorization: `Bearer ${token}` }
         });
-        return response.data.user;
-        } catch (error) {
-        throw error;
+        if (response.data.success) {
+            return response.data.data.user;
         }
-    };
+        throw new Error('Invalid token');
+    } catch (error) {
+        throw error;
+    }
+};
 
 export const AuthContext = createContext(null);
 
@@ -21,45 +23,52 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check for stored token and validate
-        const token = localStorage.getItem('token');
-        if (token) {
-        validateToken(token);
-        } else {
-        setLoading(false);
+        // Cek token yang tersimpan
+        const checkAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                validateToken(token);
+            } else {
+                setLoading(false);
+            }
         }
+        checkAuth();
     }, []);
 
     const validateToken = async (token) => {
         try {
-        // Implement token validation logic
-        const userData = await validateUserToken(token);
-        setUser(userData);
+            // Implementasi validasi token
+            const userData = await validateUserToken(token);
+            setUser(userData);
         } catch (error) {
-        localStorage.removeItem('token');
+            localStorage.removeItem('token');
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
     const handleLogin = async (credentials) => {
         try {
-        const data = await login(credentials);
-        setUser(data.user);
-        localStorage.setItem('token', data.token);
-        return data;
+            const response = await api.post('/auth/login', credentials);
+            if (response.data.success) {
+                const { token, data } = response.data;
+                localStorage.setItem('token', token);
+                setUser(data.user);
+                return response.data;
+            }
+            throw new Error('Login failed');
         } catch (error) {
-        throw error;
+            throw error;
         }
     };
 
     const handleLogout = async () => {
         try {
-        await logout();
-        setUser(null);
-        localStorage.removeItem('token');
+            await api.post('/auth/logout');
+            localStorage.removeItem('token');
+            setUser(null);
         } catch (error) {
-        console.error('Logout error:', error);
+            console.error('Logout error:', error);
         }
     };
 
@@ -73,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-        {!loading && children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

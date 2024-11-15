@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import { useAuth } from '../hooks/useAuth';
 import styles from '../styles/Auth.module.css';
 
 const Login = () => {
     const navigate = useNavigate();
     // const location = useLocation();
-    // const { login } = useAuth();
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -27,8 +27,9 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await api.post('/auth/login', formData);
-            navigate('/lesson');
+            // const response = await api.post('/auth/login', formData);
+            await login(formData);
+            navigate('/');
         } catch (err) {
             if (err.response) {
                 setError(err.response.data?.error?.message || 'Server error');
