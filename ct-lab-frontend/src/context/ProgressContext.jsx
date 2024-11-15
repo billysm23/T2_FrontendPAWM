@@ -1,4 +1,4 @@
-import React, { createContext, setProgress, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import api from '../api/axios';
 
 const initialProgressState = {
@@ -52,7 +52,7 @@ export const ProgressProvider = ({ children }) => {
         try {
             const response = await api.put('/progress/theme', { theme });
             if (response.data.success) {
-                setProgress(prev => ({
+                setState(prev => ({
                     ...prev,
                     theme: theme
                 }));
@@ -98,18 +98,21 @@ export const ProgressProvider = ({ children }) => {
         try {
             const response = await api.post(`/progress/quiz/${lessonId}`, { answers });
             if (response.data.success) {
-                setProgress(prev => ({
+                setState(prev => ({
                     ...prev,
-                    lessons: prev.lessons.map(lesson => 
-                        lesson.lesson_id === lessonId 
-                            ? {
-                                ...lesson,
-                                quiz_answers: answers,
-                                score: response.data.data.score,
-                                status: response.data.data.score >= 70 ? 'completed' : 'started'
-                            }
-                            : lesson
-                    )
+                    progress: {
+                        ...prev.progress,
+                        lessons: prev.progress.lessons.map(lesson => 
+                            lesson.lesson_id === lessonId 
+                                ? {
+                                    ...lesson,
+                                    quiz_answers: answers,
+                                    score: response.data.data.score,
+                                    status: response.data.data.score >= 70 ? 'completed' : 'started'
+                                }
+                                : lesson
+                        )
+                    }
                 }));
             }
             return response.data;

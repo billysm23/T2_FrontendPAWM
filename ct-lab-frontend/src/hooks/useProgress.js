@@ -1,11 +1,8 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import ProgressContext from '../context/ProgressContext';
 import { progressService } from '../services/progressService';
 
 export const useProgress = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [progress, setProgress] = useState(null);
     const context = useContext(ProgressContext);
 
     if (context === undefined) {
@@ -14,45 +11,55 @@ export const useProgress = () => {
 
     const getUserProgress = async () => {
         try {
-            setLoading(true);
-            setError(null);
+            context.setState(prev => ({ ...prev, loading: true, error: null }));
             const data = await progressService.getUserProgress();
-            setProgress(data);
+            context.setState(prev => ({
+                ...prev,
+                progress: data,
+                loading: false
+            }));
             return data;
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
+            context.setState(prev => ({
+                ...prev,
+                error: err.response?.data?.message || 'An error occurred',
+                loading: false
+            }));
             throw err;
-        } finally {
-            setLoading(false);
         }
     };
 
     const updateLessonProgress = async (lessonId, progressData) => {
         try {
-            setLoading(true);
-            setError(null);
+            context.setState(prev => ({ ...prev, loading: true, error: null }));
             const data = await progressService.updateProgress(lessonId, progressData);
-            setProgress(prev => ({
+            context.setState(prev => ({
                 ...prev,
-                lessons: prev.lessons.map(lesson => 
-                    lesson.lesson_id === lessonId ? { ...lesson, ...progressData } : lesson
-                )
+                progress: {
+                    ...prev.progress,
+                    lessons: prev.progress.lessons.map(lesson => 
+                        lesson.lesson_id === lessonId ? { ...lesson, ...progressData } : lesson
+                    )
+                },
+                loading: false
             }));
             return data;
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
+            context.setState(prev => ({
+                ...prev,
+                error: err.response?.data?.message || 'An error occurred',
+                loading: false
+            }));
             throw err;
-        } finally {
-            setLoading(false);
         }
     };
 
     return {
-        progress,
-        loading,
-        error,
+        progress: context.progress,
+        loading: context.loading,
+        error: context.error,
         getUserProgress,
         updateLessonProgress,
-        context
+        ...context
     };
 };
