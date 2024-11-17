@@ -19,8 +19,9 @@ const LessonList = ({ lessons }) => {
         return !previousLessonProgress || previousLessonProgress.status !== 'completed';
     };
 
-    const processedLessons = lessons
-        .sort((a, b) => a.order - b.order)
+    const sortedLessons = [...lessons].sort((a, b) => a.order - b.order);
+
+    const processedLessons = sortedLessons
         .map(lesson => ({
             ...lesson,
             isLocked: shouldLockLesson(lesson.order)
