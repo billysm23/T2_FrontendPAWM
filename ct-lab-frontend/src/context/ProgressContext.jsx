@@ -63,22 +63,27 @@ export const ProgressProvider = ({ children }) => {
         }
     };
 
-    const updateLessonProgress = async (lessonId, updates) => {
+    const updateLessonProgress = async (lessonId, status) => {
         try {
-            setState(prev => ({ ...prev, loading: true }));
-            const response = await api.put(`/progress/lessons/${lessonId}`, updates);
+            const response = await api.put(`/progress/lessons/${lessonId}`, { status });
             if (response.data.success) {
-              await fetchProgress();
+                // Update context state
+                setState(prev => ({
+                    ...prev,
+                    progress: {
+                        ...prev.progress,
+                        lessons: prev.progress.lessons.map(lesson =>
+                            lesson.lesson_id === lessonId
+                                ? { ...lesson, status }
+                                : lesson
+                        )
+                    }
+                }));
             }
             return response.data;
-          } catch (err) {
-            setState(prev => ({
-              ...prev,
-              error: err.message,
-              loading: false
-            }));
-            throw err;
-          }
+        } catch (error) {
+            throw error;
+        }
     };
 
     const trackContentProgress = async (lessonId, contentId, timeSpent = 0) => {
