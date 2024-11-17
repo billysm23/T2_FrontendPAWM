@@ -2,3 +2,4 @@
 /node_modules
 *.rar
 /ct-lab-frontend/node_modules
+*.zip

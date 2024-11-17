@@ -99,6 +99,26 @@ export const ProgressProvider = ({ children }) => {
         }
     };
 
+    const saveQuizProgress = async (lessonId, answers) => {
+        try {
+            const response = await api.post(`/quiz/${lessonId}/progress`, { answers });
+            return response.data;
+        } catch (error) {
+            console.error('Failed to save quiz progress:', error);
+            throw error;
+        }
+    };
+
+    const getQuizProgress = async (lessonId) => {
+        try {
+            const response = await api.get(`/quiz/${lessonId}/progress`);
+            return response.data;
+        } catch (error) {
+            console.error('Failed to get quiz progress:', error);
+            throw error;
+        }
+    };
+
     const submitQuizAnswers = async (lessonId, answers) => {
         try {
             const response = await api.post(`/progress/quiz/${lessonId}`, { answers });
@@ -132,6 +152,8 @@ export const ProgressProvider = ({ children }) => {
         updateLessonProgress,
         submitQuizAnswers,
         trackContentProgress,
+        saveQuizProgress,
+        getQuizProgress,
         refreshProgress: fetchProgress
     };
 

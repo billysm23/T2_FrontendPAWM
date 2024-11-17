@@ -164,15 +164,24 @@
     backdrop-filter: blur(10px);
 }
 
-.loading_container {
+.loading_container,
+.error_container,
+.empty_state {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 400px;
+    padding: 2rem;
 }
 
 .loading {
     text-align: center;
+}
+
+.loading_text {
+    margin-top: -2rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
 }
 
 .loading_spinner {

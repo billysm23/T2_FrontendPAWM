@@ -61,7 +61,7 @@ const Lesson = () => {
             <div className={styles.loading_container}>
                 <div className={styles.loading}>
                     <LoadingSpinner />
-                    <p className={styles.loading_text}>Loading lessons...</p>
+                    <p className={styles.loading_text}>Loading page...</p>
                 </div>
             </div>
         );

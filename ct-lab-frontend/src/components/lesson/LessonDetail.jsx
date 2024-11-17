@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import api from '../../api/axios';
 import { useProgress } from '../../context/ProgressContext';
 import styles from '../../styles/LessonDetail.module.css';
+import { LoadingSpinner } from '../common/LoadingSpinner';
 import ContentSection from './section/ContentSection';
 import OverviewSection from './section/OverviewSection';
 import QuizSection from './section/QuizSection';
@@ -60,7 +61,7 @@ const LessonDetail = () => {
             return (
                 <div className={styles.loading_container}>
                     <div className={styles.loading}>
-                        <div className={styles.loading_spinner}></div>
+                        <LoadingSpinner />
                         <p>Loading lesson content...</p>
                     </div>
                 </div>

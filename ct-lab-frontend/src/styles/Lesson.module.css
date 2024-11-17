@@ -69,7 +69,8 @@
     justify-content: center;
     align-items: center;
     min-height: 400px;
-    padding: 2rem;
+    padding-bottom: -2rem;
+    margin-top: -2rem;
 }
 
 .loading {
@@ -77,9 +78,8 @@
 }
 
 .loading_text {
-    margin-top: -2rem;
+    margin-top: 1rem;
     color: var(--text-secondary);
-    font-size: 1rem;
 }
 
 @keyframes spin {
@@ -183,20 +183,6 @@
     height: auto;
     margin-bottom: 2rem;
     opacity: 0.7;
-}
-
-/* Loading spinner animation */
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.loading_spinner {
-    border: 3px solid var(--border-color);
-    border-top-color: var(--primary-color);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
 }
 
 @media (max-width: 768px) {
