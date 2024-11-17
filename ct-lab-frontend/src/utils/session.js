@@ -4,17 +4,15 @@ const SESSION_CONFIG = {
 };
 
 export const sessionManager = {
-    setSession(data) {
-        console.log('Setting session with data:', data);
+    setSession(token, user) {
         const session = {
-            token: data.token,
-            user: data.user,
+            token,
+            user,
             isActive: true,
             createdAt: new Date().getTime(),
             expiresAt: new Date().getTime() + SESSION_CONFIG.SESSION_EXPIRY,
             lastActivity: new Date().getTime()
         };
-        console.log('Created session object:', session);
         localStorage.setItem(SESSION_CONFIG.SESSION_KEY, JSON.stringify(session));
     },
 

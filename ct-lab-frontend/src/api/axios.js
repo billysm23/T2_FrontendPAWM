@@ -5,8 +5,7 @@ const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json',
-    },
-    withCredentials: true
+    }
 });
 
 // Response interceptor
@@ -30,13 +29,8 @@ api.interceptors.request.use(
     config => {
         const session = sessionManager.getSession();
         if (session?.token) {
-            config.headers['Authorization'] = `Bearer ${session.token}`;
+            config.headers.Authorization = `Bearer ${session.token}`;
         }
-        console.log('Request config:', {
-            url: config.url,
-            method: config.method,
-            headers: config.headers
-        });
         return config;
     },
     error => {

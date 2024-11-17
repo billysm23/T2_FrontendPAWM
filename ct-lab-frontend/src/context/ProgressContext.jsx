@@ -1,22 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import api from '../api/axios';
 
-// const initialProgressState = {
-//     progress: null,
-//     stats: null,
-//     loading: true,
-//     error: null,
-//     updateLessonProgress: () => {},
-//     trackContentProgress: () => {},
-//     refreshProgress: () => {}
-// };
+const initialProgressState = {
+    progress: null,
+    stats: null,
+    loading: true,
+    error: null,
+    updateLessonProgress: () => {},
+    trackContentProgress: () => {},
+    refreshProgress: () => {}
+};
 
-const ProgressContext = createContext(null);
+export const ProgressContext = createContext(initialProgressState);
 
 export const ProgressProvider = ({ children }) => {
     const [state, setState] = useState({
         progress: null,
-        quizProgress: null,
+        stats: null,
         loading: true,
         error: null
     });
@@ -65,23 +65,23 @@ export const ProgressProvider = ({ children }) => {
 
     const updateLessonProgress = async (lessonId, status) => {
         try {
-            console.log('Updating lesson progress:', { lessonId, status });
             const response = await api.put(`/progress/lessons/${lessonId}`, { status });
-            
             if (response.data.success) {
+                // Update context state
                 setState(prev => ({
                     ...prev,
-                    progress: response.data.data,
-                    error: null
+                    progress: {
+                        ...prev.progress,
+                        lessons: prev.progress.lessons.map(lesson =>
+                            lesson.lesson_id === lessonId
+                                ? { ...lesson, status }
+                                : lesson
+                        )
+                    }
                 }));
-                return response.data;
             }
+            return response.data;
         } catch (error) {
-            console.error('Progress update error:', error);
-            setState(prev => ({
-                ...prev,
-                error: error.message
-            }));
             throw error;
         }
     };
@@ -101,26 +101,10 @@ export const ProgressProvider = ({ children }) => {
 
     const saveQuizProgress = async (lessonId, answers) => {
         try {
-            console.log('Saving quiz progress:', { lessonId, answers });
-            const response = await api.post(`/lessons/${lessonId}/quiz/progress`, {
-                answers
-            });
-            
-            if (response.data.success) {
-                setState(prev => ({
-                    ...prev,
-                    quizProgress: response.data.data,
-                    error: null
-                }));
-                return response.data;
-            }
-            throw new Error('Failed to save quiz progress');
+            const response = await api.post(`/quiz/${lessonId}/progress`, { answers });
+            return response.data;
         } catch (error) {
-            console.error('Quiz progress save error:', error);
-            setState(prev => ({
-                ...prev,
-                error: error.message
-            }));
+            console.error('Failed to save quiz progress:', error);
             throw error;
         }
     };
@@ -137,37 +121,27 @@ export const ProgressProvider = ({ children }) => {
 
     const submitQuizAnswers = async (lessonId, answers) => {
         try {
-            console.log('Submitting quiz:', { lessonId, answers });
-            const response = await api.post(`/lessons/${lessonId}/quiz/submit`, {
-                answers
-            });
-            
+            const response = await api.post(`/progress/quiz/${lessonId}`, { answers });
             if (response.data.success) {
                 setState(prev => ({
                     ...prev,
                     progress: {
                         ...prev.progress,
-                        lessons: prev.progress.lessons.map(lesson =>
-                            lesson.lessonId === lessonId
+                        lessons: prev.progress.lessons.map(lesson => 
+                            lesson.lesson_id === lessonId 
                                 ? {
                                     ...lesson,
-                                    status: response.data.data.passed ? 'completed' : 'started',
-                                    score: response.data.data.score
+                                    quiz_answers: answers,
+                                    score: response.data.data.score,
+                                    status: response.data.data.score >= 70 ? 'completed' : 'started'
                                 }
                                 : lesson
                         )
-                    },
-                    error: null
+                    }
                 }));
-                return response.data;
             }
-            throw new Error('Failed to submit quiz');
+            return response.data;
         } catch (error) {
-            console.error('Quiz submission error:', error);
-            setState(prev => ({
-                ...prev,
-                error: error.message
-            }));
             throw error;
         }
     };

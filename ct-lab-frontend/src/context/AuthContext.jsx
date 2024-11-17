@@ -7,6 +7,33 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await api.get('/auth/validate-token');
+                if (response.data.success) {
+                    setUser(response.data.user);
+                }
+            } catch (error) {
+                // Only clear token on auth error
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    setUser(null);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, []);
     
     const handleLogout = useCallback(async () => {
         try {
@@ -57,23 +84,17 @@ export const AuthProvider = ({ children }) => {
             }
 
             const response = await api.post('/auth/login', credentials);
-            console.log('Login response:', response);
+            const { success, data } = response.data;
 
-            if (response.data.success) {
-                sessionManager.setSession({
-                    token: response.data.data.token,
-                    user: response.data.data.user
-                });
-                
-                setUser(response.data.data.user);
+            if (success) {
+                sessionManager.setSession(data.token, data.user);
+                setUser(data.user);
                 setupSessionRefresh();
-                return response.data.data;
+                return data;
             }
 
             throw new Error('Login failed');
         } catch (error) {
-            console.error('Login error:', error);
-            sessionManager.clearSession();
             if (error.response?.data?.error) {
                 throw new Error(error.response.data.error.message);
             }
@@ -83,62 +104,29 @@ export const AuthProvider = ({ children }) => {
 
     const handleRegister = useCallback(async (userData) => {
         try {
+            // Cek session yang sudah ada
             if (sessionManager.isSessionValid()) {
                 throw new Error('You have an active session. Please logout first.');
             }
 
             const response = await api.post('/auth/register', userData);
+            const { success, data } = response.data;
 
-            if (response.data.success) {
-                sessionManager.setSession({
-                    token: response.data.data.token,
-                    user: response.data.data.user
-                });
-                
-                setUser(response.data.data.user);
+            if (success) {
+                // Opsional: langsung login setelah register
+                sessionManager.setSession(data.token, data.user);
+                setUser(data.user);
                 setupSessionRefresh();
-                return response.data.data;
+                return data;
             }
 
             throw new Error('Registration failed');
         } catch (error) {
-            console.error('Registration error:', error);
-            sessionManager.clearSession();
             if (error.response?.data?.error) {
                 throw new Error(error.response.data.error.message);
             }
             throw error;
         }
-    }, [setupSessionRefresh]);
-
-    useEffect(() => {
-        const initializeAuth = async () => {
-            try {
-                const session = sessionManager.getSession();
-                if (!session) {
-                    setLoading(false);
-                    return;
-                }
-
-                // Validate token with backend
-                const response = await api.get('/auth/validate-token');
-                if (response.data.success) {
-                    setUser(session.user);
-                    setupSessionRefresh();
-                } else {
-                    sessionManager.clearSession();
-                    setUser(null);
-                }
-            } catch (error) {
-                console.error('Auth initialization error:', error);
-                sessionManager.clearSession();
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        initializeAuth();
     }, [setupSessionRefresh]);
 
     const value = {
@@ -147,7 +135,7 @@ export const AuthProvider = ({ children }) => {
         login: handleLogin,
         logout: handleLogout,
         register: handleRegister,
-        isAuthenticated: !!user && sessionManager.isSessionValid()
+        isAuthenticated: sessionManager.isSessionValid()
     };
 
     return (
