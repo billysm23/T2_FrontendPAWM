@@ -1,10 +1,10 @@
 import { Check, ChevronRight, Loader2, X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useProgress } from '../../../context/ProgressContext';
 import styles from '../../../styles/QuizSection.module.css';
 
 const QuizSection = ({ lesson }) => {
-    const { submitQuizAnswers, saveQuizProgress, getQuizProgress } = useProgress();
+    const { submitQuizAnswers, saveQuizProgress } = useProgress();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState({});
     const [submitting, setSubmitting] = useState(false);
@@ -14,81 +14,76 @@ const QuizSection = ({ lesson }) => {
     const [loading, setLoading] = useState(true);
 
     // Load saved progress when component mounts
-    useEffect(() => {
-        const loadSavedProgress = async () => {
-            try {
-                setLoading(true);
-                const savedProgress = await getQuizProgress(lesson._id);
+    // useEffect(() => {
+    //     const loadSavedProgress = async () => {
+    //         try {
+    //             setLoading(true);
+    //             const savedProgress = await getQuizProgress(lesson._id);
                 
-                if (savedProgress?.data) {
-                    // Restore saved answers
-                    const savedAnswers = {};
-                    savedProgress.data.answers.forEach(answer => {
-                        savedAnswers[answer.question_id] = answer.selected_answer;
-                    });
-                    setAnswers(savedAnswers);
+    //             if (savedProgress?.data) {
+    //                 // Restore saved answers
+    //                 const savedAnswers = {};
+    //                 savedProgress.data.answers.forEach(answer => {
+    //                     savedAnswers[answer.question_id] = answer.selected_answer;
+    //                 });
+    //                 setAnswers(savedAnswers);
 
-                    // Restore last question index
-                    const lastAnsweredIndex = Object.keys(savedAnswers).length - 1;
-                    if (lastAnsweredIndex >= 0) {
-                        setCurrentIndex(lastAnsweredIndex);
-                    }
+    //                 // Restore last question index
+    //                 const lastAnsweredIndex = Object.keys(savedAnswers).length - 1;
+    //                 if (lastAnsweredIndex >= 0) {
+    //                     setCurrentIndex(lastAnsweredIndex);
+    //                 }
 
-                    // Check if quiz was completed
-                    if (savedProgress.data.status === 'completed') {
-                        setQuizCompleted(true);
-                        setScore(savedProgress.data.score);
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to load quiz progress:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    //                 // Check if quiz was completed
+    //                 if (savedProgress.data.status === 'completed') {
+    //                     setQuizCompleted(true);
+    //                     setScore(savedProgress.data.score);
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             console.error('Failed to load quiz progress:', err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
 
-        if (lesson?._id) {
-            loadSavedProgress();
-        }
-    }, [lesson?._id]);
+    //     if (lesson?._id) {
+    //         loadSavedProgress();
+    //     }
+    // }, [lesson?._id]);
 
     const handleAnswer = async (questionId, answer) => {
-        const newAnswers = {
-            ...answers,
-            [questionId]: answer
-        };
-        setAnswers(newAnswers);
-
-        // Auto-save progress
         try {
-            await saveQuizProgress(lesson._id, 
-                Object.entries(newAnswers).map(([qId, selectedAnswer]) => ({
-                    question_id: qId,
-                    selected_answer: selectedAnswer,
-                }))
-            );
-        } catch (err) {
-            console.error('Failed to save progress:', err);
-            // Don't show error to user to avoid disrupting experience
+            setAnswers(prev => ({
+                ...prev,
+                [questionId]: answer
+            }));
+            
+            // Save progress after each answer
+            await saveQuizProgress(lesson._id, {
+                ...answers,
+                [questionId]: answer
+            });
+        } catch (error) {
+            console.error('Failed to save answer:', error);
+            // Continue without blocking user
         }
     };
 
     const handleSubmit = async () => {
         try {
-            setSubmitting(true);
-            const result = await submitQuizAnswers(lesson._id, 
-                Object.entries(answers).map(([questionId, answer]) => ({
-                    question_id: questionId,
-                    selected_answer: answer,
-                }))
-            );
+            setLoading(true);
+            setError(null);
             
-            setScore(result.data.score);
-            setQuizCompleted(true);
-        } catch (err) {
-            setError('Failed to submit quiz');
+            const result = await submitQuizAnswers(lesson._id, answers);
+            
+            if (result.data.passed) {
+                // Handle success
+            }
+        } catch (error) {
+            setError(error.message);
         } finally {
-            setSubmitting(false);
+            setLoading(false);
         }
     };
 
