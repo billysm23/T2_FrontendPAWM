@@ -10,9 +10,9 @@ export const progressService = {
         }
     },
 
-    async updateProgress(lessonId, progressData) {
+    async submitQuiz(lessonId, answers) {
         try {
-            const response = await api.put(`/progress/lessons/${lessonId}`, progressData);
+            const response = await api.post(`/quiz/${lessonId}/submit`, { answers });
             return response.data;
         } catch (error) {
             throw error;
@@ -31,15 +31,6 @@ export const progressService = {
     async updateTheme(theme) {
         try {
             const response = await api.put('/progress/theme', { theme });
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
-    },
-
-    async submitQuiz(lessonId, answers) {
-        try {
-            const response = await api.post(`/progress/quiz/${lessonId}`, { answers });
             return response.data;
         } catch (error) {
             throw error;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import api from '../../api/axios';
-import { useProgress } from '../../context/ProgressContext';
+import { useProgress } from '../../hooks/useProgress';
 import styles from '../../styles/LessonDetail.module.css';
 import { LoadingSpinner } from '../common/LoadingSpinner';
 import ContentSection from './section/ContentSection';
@@ -16,7 +16,7 @@ const LessonDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
-    const { updateLessonProgress } = useProgress();
+    const { isLessonCompleted, getLessonProgress } = useProgress();
 
     // Fetch data pelajaran
     useEffect(() => {
@@ -25,23 +25,13 @@ const LessonDetail = () => {
                 setLoading(true);
                 setError(null);
                 
-                console.log('Fetching lesson with ID:', id);
                 const response = await api.get(`/lessons/${id}`);
-                console.log('Lesson response:', response);
                 
-                // Validasi response
                 if (!response || !response.data) {
                     throw new Error('Invalid response format');
                 }
         
                 setLesson(response.data.data);
-                
-                // Update progress lesson
-                try {
-                    await updateLessonProgress(id, 'started');
-                } catch (progressError) {
-                    console.warn('Progress update failed:', progressError);
-                }
             } catch (err) {
                 console.error('Error fetching lesson:', err);
                 setError(err.response?.data?.error || err.message || 'Failed to load lesson');
@@ -53,7 +43,7 @@ const LessonDetail = () => {
         if (id) {
             fetchLesson();
         }
-    }, [id, location.pathname, updateLessonProgress]);
+    }, [id]);
 
     // Render konten berdasarkan tab aktif
     const renderContent = useCallback(() => {
@@ -97,19 +87,35 @@ const LessonDetail = () => {
             );
         }
 
+        // Get lesson progress
+        const lessonProgress = getLessonProgress(lesson._id);
+        const quizScore = lessonProgress?.quizScore || 0;
+        const isCompleted = isLessonCompleted(lesson._id);
+
         switch (activeTab) {
             case 'overview':
-                return <OverviewSection lesson={lesson} />;
+                return <OverviewSection 
+                    lesson={lesson} 
+                    quizScore={quizScore} 
+                    isCompleted={isCompleted}
+                />;
             case 'content':
                 return <ContentSection lesson={lesson} />;
             case 'resources':
                 return <ResourcesSection lesson={lesson} />;
             case 'quiz':
-                return <QuizSection lesson={lesson} />;
+                return <QuizSection 
+                    lesson={lesson}
+                    isLocked={!lessonProgress || lessonProgress.status === 'locked'}
+                />;
             default:
-                return <OverviewSection lesson={lesson} />;
+                return <OverviewSection 
+                    lesson={lesson}
+                    quizScore={quizScore}
+                    isCompleted={isCompleted}
+                />;
         }
-    }, [activeTab, lesson, loading, error]);
+    }, [activeTab, lesson, loading, error, getLessonProgress, isLessonCompleted]);
 
     // Redirect ke tab overview jika tidak ada tab yang dipilih
     if (location.pathname === `/lesson/${id}`) {
@@ -134,12 +140,20 @@ const LessonDetail = () => {
                                     <i className="fas fa-layer-group"></i>
                                     Level: {lesson.level}
                                 </span>
-                                {lesson.prerequisite && (
-                                    <span>
-                                        <i className="fas fa-tasks"></i>
-                                        Prerequisites: Lesson {lesson.prerequisite.join(', ')}
+                                {/* Quiz Status */}
+                                {getLessonProgress(lesson._id)?.quizScore > 0 && (
+                                    <span className={styles.quiz_status}>
+                                        Quiz Score: {getLessonProgress(lesson._id).quizScore}%
+                                        {isLessonCompleted(lesson._id) && 
+                                            <span className={styles.completed_badge}>Completed</span>
+                                        }
                                     </span>
                                 )}
+                                {/* Lesson Order */}
+                                <span>
+                                    <i className="fas fa-layer-group"></i>
+                                    Prerequisite: Lesson {lesson.prerequisite}
+                                </span>
                             </div>
                         </div>
                     </div>
