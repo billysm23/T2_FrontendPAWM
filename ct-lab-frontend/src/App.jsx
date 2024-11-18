@@ -5,6 +5,7 @@ import SessionGuard from './components/SessionGuard';
 import ScrollToTop from './components/common/ScrollToTop';
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
+import QuizResult from './components/lesson/section/QuizResult';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -49,6 +50,7 @@ function App() {
                                                 </PrivateRoute>
                                             </SessionGuard>
                                         } />
+                                    <Route path="/lesson/:lessonId/quiz-result" element={<QuizResult />} />
                                     <Route path="/coming-soon" element={<ComingSoon />} />
                                     </Routes>
                                 </Suspense>

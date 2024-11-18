@@ -1,7 +1,10 @@
 import { Check, ChevronRight, Loader2, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../../api/axios';
 import { useProgress } from '../../../context/ProgressContext';
 import styles from '../../../styles/QuizSection.module.css';
+import QuizCompletion from './QuizCompletion';
 
 const QuizSection = ({ lesson }) => {
     const { submitQuizAnswers, saveQuizProgress, getQuizProgress } = useProgress();
@@ -12,8 +15,10 @@ const QuizSection = ({ lesson }) => {
     const [quizCompleted, setQuizCompleted] = useState(false);
     const [score, setScore] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showCompletion, setShowCompletion] = useState(false);
+    const navigate = useNavigate();
+    const [quizResult, setQuizResult] = useState(null);
 
-    // Load saved progress when component mounts
     useEffect(() => {
         const loadSavedProgress = async () => {
             try {
@@ -21,20 +26,18 @@ const QuizSection = ({ lesson }) => {
                 const savedProgress = await getQuizProgress(lesson._id);
                 
                 if (savedProgress?.data) {
-                    // Restore saved answers
                     const savedAnswers = {};
                     savedProgress.data.answers.forEach(answer => {
                         savedAnswers[answer.question_id] = answer.selected_answer;
                     });
                     setAnswers(savedAnswers);
 
-                    // Restore last question index
                     const lastAnsweredIndex = Object.keys(savedAnswers).length - 1;
                     if (lastAnsweredIndex >= 0) {
                         setCurrentIndex(lastAnsweredIndex);
                     }
 
-                    // Check if quiz was completed
+                    // Cek apakah quiz selesai
                     if (savedProgress.data.status === 'completed') {
                         setQuizCompleted(true);
                         setScore(savedProgress.data.score);
@@ -59,7 +62,7 @@ const QuizSection = ({ lesson }) => {
         };
         setAnswers(newAnswers);
 
-        // Auto-save progress
+        // Auto-save
         try {
             await saveQuizProgress(lesson._id, 
                 Object.entries(newAnswers).map(([qId, selectedAnswer]) => ({
@@ -69,28 +72,58 @@ const QuizSection = ({ lesson }) => {
             );
         } catch (err) {
             console.error('Failed to save progress:', err);
-            // Don't show error to user to avoid disrupting experience
         }
     };
 
     const handleSubmit = async () => {
         try {
             setSubmitting(true);
-            const result = await submitQuizAnswers(lesson._id, 
-                Object.entries(answers).map(([questionId, answer]) => ({
-                    question_id: questionId,
-                    selected_answer: answer,
-                }))
-            );
             
-            setScore(result.data.score);
-            setQuizCompleted(true);
-        } catch (err) {
-            setError('Failed to submit quiz');
-        } finally {
+            const formattedAnswers = Object.entries(answers).map(([questionId, answerId]) => ({
+                questionId,
+                selectedAnswer: answerId
+            }));
+
+            const response = await api.post(`/quiz/${lesson._id}/submit`, {
+                answers: formattedAnswers
+            });
+
+            if (response.data.success) {
+                const result = {
+                    score: response.data.data.score,
+                    passed: response.data.data.passed,
+                    correctAnswers: response.data.data.correctAnswers,
+                    totalQuestions: questions.length
+                };
+
+                // Redirect ke halaman hasil dengan data quiz
+                navigate(`/lesson/${lesson._id}/quiz-result`, {
+                    state: { quizResult: result }
+                });
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || 'Failed to submit quiz');
             setSubmitting(false);
         }
     };
+
+    const handleRetry = () => {
+        setShowCompletion(false);
+        setQuizResult(null);
+        setAnswers({});
+        setCurrentIndex(0);
+    };
+
+    if (showCompletion && quizResult) {
+        return (
+            <QuizCompletion
+                score={quizResult.score}
+                totalQuestions={quizResult.totalQuestions}
+                correctAnswers={quizResult.correctAnswers}
+                onRetry={handleRetry}
+            />
+        );
+    }
 
     if (loading) {
         return (
