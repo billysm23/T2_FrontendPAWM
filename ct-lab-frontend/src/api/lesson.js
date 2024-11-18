@@ -19,16 +19,19 @@ export const getLessonById = async (id) => {
 };
 
 export const getLessonQuiz = async (lessonId) => {
-    const response = await api.get(`/lessons/${lessonId}/quiz`);
-    return response.data;
+    try {
+        const response = await api.get(`/quiz/lesson/${lessonId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 };
 
-export const saveQuizProgress = async (lessonId, answers) => {
-    const response = await api.post(`/lessons/${lessonId}/quiz/progress`, { answers });
-    return response.data;
-};
-
-export const getQuizProgress = async (lessonId) => {
-    const response = await api.get(`/lessons/${lessonId}/quiz/progress`);
-    return response.data;
+export const submitQuiz = async (lessonId, answers) => {
+    try {
+        const response = await api.post(`/quiz/${lessonId}/submit`, { answers });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 };

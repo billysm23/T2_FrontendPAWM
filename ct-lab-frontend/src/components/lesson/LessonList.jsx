@@ -12,7 +12,7 @@ const LessonList = ({ lessons }) => {
         const previousLesson = lessons.find(l => l.order === lessonOrder - 1);
         if (!previousLesson) return false;
 
-        const previousLessonProgress = progress?.lessons?.find(
+        const previousLessonProgress = progress?.lessonProgresses?.find(
             p => p.lessonId === previousLesson._id
         );
 
