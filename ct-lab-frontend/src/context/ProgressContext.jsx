@@ -1,26 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import api from '../api/axios';
 
-const initialProgressState = {
-    progress: null,
-    stats: null,
-    loading: true,
-    error: null,
-    updateLessonProgress: () => {},
-    trackContentProgress: () => {},
-    refreshProgress: () => {}
-};
-
-export const ProgressContext = createContext(initialProgressState);
+const ProgressContext = createContext(null);
 
 export const ProgressProvider = ({ children }) => {
     const [state, setState] = useState({
         progress: null,
-        stats: null,
         loading: true,
         error: null
     });
-    
+
     const fetchProgress = async () => {
         try {
             setState(prev => ({ ...prev, loading: true }));
@@ -29,7 +18,6 @@ export const ProgressProvider = ({ children }) => {
                 setState(prev => ({
                     ...prev,
                     progress: response.data.data.progress,
-                    stats: response.data.data.stats,
                     loading: false,
                     error: null
                 }));
@@ -40,103 +28,34 @@ export const ProgressProvider = ({ children }) => {
                 error: err.message,
                 loading: false
             }));
-            console.error('Error fetching progress:', err);
         }
     };
 
     useEffect(() => {
         fetchProgress();
     }, []);
-    
+
+    const submitQuiz = async (lessonId, answers) => {
+        try {
+            const response = await api.post(`/quiz/${lessonId}/submit`, { answers });
+            if (response.data.success) {
+                await fetchProgress(); // Refresh progress after quiz submission
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     const updateTheme = async (theme) => {
         try {
             const response = await api.put('/progress/theme', { theme });
             if (response.data.success) {
                 setState(prev => ({
                     ...prev,
-                    theme: theme
-                }));
-            }
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
-    };
-
-    const updateLessonProgress = async (lessonId, status) => {
-        try {
-            const response = await api.put(`/progress/lessons/${lessonId}`, { status });
-            if (response.data.success) {
-                // Update context state
-                setState(prev => ({
-                    ...prev,
                     progress: {
                         ...prev.progress,
-                        lessons: prev.progress.lessons.map(lesson =>
-                            lesson.lesson_id === lessonId
-                                ? { ...lesson, status }
-                                : lesson
-                        )
-                    }
-                }));
-            }
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
-    };
-
-    const trackContentProgress = async (lessonId, contentId, timeSpent = 0) => {
-        try {
-            return await updateLessonProgress(lessonId, {
-                completedContent: [contentId],
-                timeSpent,
-                status: 'started'
-            });
-        } catch (err) {
-            console.error('Error tracking content progress:', err);
-            throw err;
-        }
-    };
-
-    const saveQuizProgress = async (lessonId, answers) => {
-        try {
-            const response = await api.post(`/quiz/${lessonId}/progress`, { answers });
-            return response.data;
-        } catch (error) {
-            console.error('Failed to save quiz progress:', error);
-            throw error;
-        }
-    };
-
-    const getQuizProgress = async (lessonId) => {
-        try {
-            const response = await api.get(`/quiz/${lessonId}/progress`);
-            return response.data;
-        } catch (error) {
-            console.error('Failed to get quiz progress:', error);
-            throw error;
-        }
-    };
-
-    const submitQuizAnswers = async (lessonId, answers) => {
-        try {
-            const response = await api.post(`/progress/quiz/${lessonId}`, { answers });
-            if (response.data.success) {
-                setState(prev => ({
-                    ...prev,
-                    progress: {
-                        ...prev.progress,
-                        lessons: prev.progress.lessons.map(lesson => 
-                            lesson.lesson_id === lessonId 
-                                ? {
-                                    ...lesson,
-                                    quiz_answers: answers,
-                                    score: response.data.data.score,
-                                    status: response.data.data.score >= 70 ? 'completed' : 'started'
-                                }
-                                : lesson
-                        )
+                        theme
                     }
                 }));
             }
@@ -148,12 +67,8 @@ export const ProgressProvider = ({ children }) => {
 
     const value = {
         ...state,
+        submitQuiz,
         updateTheme,
-        updateLessonProgress,
-        submitQuizAnswers,
-        trackContentProgress,
-        saveQuizProgress,
-        getQuizProgress,
         refreshProgress: fetchProgress
     };
 
@@ -166,7 +81,7 @@ export const ProgressProvider = ({ children }) => {
 
 export const useProgress = () => {
     const context = useContext(ProgressContext);
-    if (context === undefined) {
+    if (!context) {
         throw new Error('useProgress must be used within a ProgressProvider');
     }
     return context;
