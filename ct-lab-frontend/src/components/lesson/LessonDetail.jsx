@@ -151,7 +151,8 @@ const LessonDetail = () => {
                                 )}
                                 {/* Lesson Order */}
                                 <span>
-                                    Lesson {lesson.order}
+                                    <i className="fas fa-layer-group"></i>
+                                    Prerequisite: Lesson {lesson.prerequisite}
                                 </span>
                             </div>
                         </div>
